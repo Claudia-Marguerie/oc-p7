@@ -1,15 +1,19 @@
 {
   "name": "frontend",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "sass ./sass/main.scss ./css/style.css --watch",
+    "prod": "sass ./sass/main.scss ./css/style.css"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.19.2"
+  },
+  "description": "",
+  "devDependencies": {
+    "sass": "^1.26.10"
   }
 }

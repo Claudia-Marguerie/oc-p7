@@ -1,31 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Signup</title>
-</head>
-<body>
-
-<form>
-    <div>
-        <label>Nom</label>
-        <input type="text" name="last_name" required>
-    </div>
-    <div>
-        <label>Prénom</label>
-        <input type="text" name="first_name" required>
-    </div>
-    <div>
-        <label>Email</label>
-        <input type="email" name="email" required>
-    </div>
-    <div>
-        <label>Password</label>
-        <input type="password" name="password" required>
-    </div>
-    <button type="submit">S'enregistrer</button>
-</form>
-<a href="signin.html">J'ai déjà un compte</a>
-
-</body>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./css/style.css" />
+        <title>Créer mon compte</title>
+    </head>
+    <body>
+        <header>
+            <img src="images/icon-left-font.png" alt="Logo Groupomania">
+        </header>
+        <div id="container">
+            <div class="navigation">
+                <h1 class="navigation--active">Inscription</h1>
+                <a class="navigation--diactive" href="signin.html"><h1>Connexion</h1> </a>
+            </div>
+            <div class="container-form">
+                <form>
+                    <div class="form-item">
+                        <label for="last_name">Nom :</label>
+                        <input id="last_name" type="text" placeholder="Nom" name="last_name" required>
+                    </div>
+                    <div class="form-item">
+                        <label for="first_name">Prénom :</label>
+                        <input id="first_name" type="text" placeholder="Prénom" name="first_name" required>
+                    </div>
+                    <div class="form-item">
+                        <label for="email">E-mail :</label>
+                        <input id="email" type="email" placeholder="E-mail" name="email" required>
+                    </div>
+                    <div class="form-item">
+                        <label for="password">Password :</label>
+                        <input id="password" type="password" placeholder="Password" name="password" required>
+                    </div>
+                    <div class="form-bottom">
+                        <button type="submit">Créer mon compte</button>
+                        <a href="signin.html">J'ai déjà un compte</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
 </html>

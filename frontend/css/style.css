@@ -1,0 +1,131 @@
+html, body {
+  width: 100%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+header {
+  height: 120px;
+  padding-left: 30px;
+  display: flex;
+  align-items: center;
+}
+header img {
+  height: 70px;
+}
+
+#container {
+  width: 80%;
+  max-width: 800px;
+  height: 100%;
+  margin: 50px auto;
+  font-family: Arial, Helvetica, sans-serif;
+}
+#container .navigation {
+  display: flex;
+}
+#container .navigation h1 {
+  width: 180px;
+  height: 60px;
+  margin: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.3em;
+  font-weight: normal;
+}
+#container .navigation--active {
+  background-color: #bfd0eb;
+  text-decoration: underline;
+  color: #002155;
+}
+#container .navigation--diactive {
+  color: rgba(0, 33, 85, 0.5);
+  text-decoration: none;
+}
+#container .container-form {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.1em;
+  background-color: #bfd0eb;
+}
+#container .container-form form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  line-height: 3.2;
+  color: #002155;
+  font-weight: bold;
+}
+@media screen and (max-width: 768px) {
+  #container .container-form form {
+    padding: 30px 0;
+  }
+}
+#container .container-form form .form-item {
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media screen and (max-width: 425px) {
+  #container .container-form form .form-item {
+    flex-wrap: wrap;
+    justify-content: left;
+  }
+}
+#container .container-form form .form-item label {
+  display: block;
+  width: 20%;
+  min-width: 100px;
+  float: left;
+}
+#container .container-form form .form-item input {
+  width: 60%;
+  min-width: 250px;
+  height: 35px;
+  border: 2px solid white;
+  border-radius: 8px;
+  font-size: 1em;
+}
+@media screen and (max-width: 425px) {
+  #container .container-form form .form-item input {
+    width: 100%;
+    min-width: auto;
+  }
+}
+#container .container-form form .form-bottom {
+  width: 100%;
+  margin: 25px auto 15px auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+@media screen and (max-width: 768px) {
+  #container .container-form form .form-bottom {
+    flex-direction: column;
+  }
+}
+#container .container-form form .form-bottom button {
+  width: 250px;
+  font-size: 1em;
+  padding: 10px;
+  border: none;
+  background-color: #002155;
+  border-radius: 20px;
+  color: white;
+}
+#container .container-form form .form-bottom a {
+  text-decoration: none;
+  font-weight: lighter;
+  color: #002155;
+}
+
+/*# sourceMappingURL=style.css.map */

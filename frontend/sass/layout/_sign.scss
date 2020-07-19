@@ -1,0 +1,123 @@
+@import "../components/variables";
+
+html, body {
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
+  
+* {
+    box-sizing: border-box;
+}
+
+header {
+    height: 120px;
+    padding-left: 30px;
+    display: flex;
+    align-items: center;
+    img {
+        height: 70px;
+    }
+}
+
+#container {
+    width: 80%;
+    max-width: 800px;
+    height: 100%;
+    margin: 50px auto;
+    font-family: Arial, Helvetica, sans-serif;
+    .navigation {
+        display: flex;
+        h1 {
+            width: 180px;
+            height: 60px;
+            margin: 0px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.3em;
+            font-weight: normal;
+        }
+        &--active {
+            background-color: $clr-primary;
+            text-decoration: underline;
+            color: $clr-primary-dark;
+        }
+        &--diactive {
+            color: rgba($color: $clr-primary-dark, $alpha: 0.5);
+            text-decoration: none;
+        }
+    }
+    .container-form {
+        display: flex;
+        flex-direction: column;
+        font-size: 1.1em;
+        background-color: $clr-primary;
+        form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            line-height: 3.2;
+            color: $clr-primary-dark;
+            font-weight: bold;
+            @media screen and (max-width: 768px) {
+                padding: 30px 0;
+            }
+            .form-item {
+                width: 90%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                @media screen and (max-width: 425px) {
+                    flex-wrap: wrap;
+                    justify-content: left;
+                }
+                label {
+                    display: block;
+                    width: 20%;
+                    min-width: 100px;
+                    float: left;
+                }
+                input {
+                    width: 60%;
+                    min-width: 250px;
+                    height: 35px;
+                    border: 2px solid white;
+                    border-radius: 8px;
+                    font-size: 1em;
+                    @media screen and (max-width: 425px) {
+                        width: 100%;
+                        min-width: auto;
+                    }
+                }
+            }
+            .form-bottom{
+                width: 100%;
+                margin: 25px auto 15px auto;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                @media screen and (max-width: 768px) {
+                    flex-direction: column;
+                }
+                button {
+                    width: 250px;
+                    font-size: 1em;
+                    padding: 10px;
+                    border: none;
+                    background-color: $clr-primary-dark;
+                    border-radius: 20px;
+                    color: white;
+                }
+                a {
+                    text-decoration: none;
+                    font-weight: lighter;
+                    color: $clr-primary-dark;
+                }
+            }
+        }
+    }
+}
