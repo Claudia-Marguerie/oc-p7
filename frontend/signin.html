@@ -1,23 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Signin</title>
-</head>
-<body>
-
-    <form>
-        <div>
-            <label>Email</label>
-            <input type="text" name="email">
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./css/style.css" />
+        <title>Se connecter</title>
+    </head>
+    <body>
+        <header>
+            <img src="images/icon-left-font.png" alt="Logo Groupomania">
+        </header>
+        <div id="container">
+            <div class="navigation">
+                <a class="navigation--diactive" href="signup.html"><h1>Inscription</h1></a>
+                <h1 class="navigation--active">Connexion</h1>
+            </div>
+            <div class="container-form">
+                <form>
+                    <div class="form-item">
+                        <label for="email">E-mail :</label>
+                        <input id="email" type="email" placeholder="E-mail" name="email" required>
+                    </div>
+                    <div class="form-item">
+                        <label for="password">Password :</label>
+                        <input id="password" type="password" placeholder="Password" name="password" required>
+                    </div>
+                    <div class="form-bottom">
+                        <button type="submit">Se connecter</button>
+                        <a href="signup.html">Je n'ai pas de compte</a>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div>
-            <label>Password</label>
-            <input type="password" name="password">
-        </div>
-        <button type="submit">Se connecter</button>
-    </form>
-    <a href="signup.html">Je n'ai pas de compte</a>
-
-</body>
+    </body>
 </html>
