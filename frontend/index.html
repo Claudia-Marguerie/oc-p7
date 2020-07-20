@@ -1,19 +1,101 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Listing des articles</title>
-</head>
-<body>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./css/style.css" />
+        <title>Mon compte</title>
+    </head>
+    <body>
+        <header>
+            <img src="images/icon-left-font.png" alt="Logo Groupomania">
+            <div class="nav-header">
+                <div class="user-name">
+                    <img src="images/user.png" alt="Picto user">
+                    <p>Prénom</p><p> Nom</p>
+                </div>
+                <div class="logout">
+                    <a href="signup.html">Déconnexion</a>
+                </div>
+            </div>
+        </header>
+        <div class="container-page">
+            <nav class="add_post_btn">
+                <img src="images/plus.png" alt="Picto plus">
+                <a href="post.html">Ajouter un post</a>
+            </nav>
+            <h1>Posts</h1>
+            <div id="container_posts">
 
-    <nav>
-        <a href="signin.html">Me connecter</a>
-        <a href="signup.html">M'inscrire</a>
-    </nav>
+                <!-- Post item -->
+                <div class="post-item">
+                    <div class="all-items">
+                        <div class="top-post">
+                            <div class="user-data">
+                                <img src="images/ball_logo.png" alt="Sphère du logo">
+                                <p>Prénom</p><p>Nom</p>
+                            </div>
+                            <div class="date-time-data">
+                                <p class="date">20 juillet 2020</p>
+                                <p class="time">12:00</p>
+                            </div>
+                        </div>
+                        <div class="post">
+                            <div class="post-image-texte">
+                                <img src="images/boisson_myrtilles.jpg" alt="">
+                                <div class="only-text">
+                                    <h2>Titre post</h2>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
+                                        tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse 
+                                        ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bottom-post">
+                            <a href=""><img src="images/like.png" alt=""></a>
+                            <p>0</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fin post item -->
+                
+                <!-- Post item -->
+                <div class="post-item">
+                    <div class="all-items">
+                        <div class="top-post">
+                            <div class="user-data">
+                                <img src="images/ball_logo.png" alt="Sphère du logo">
+                                <p>Prénom</p><p>Nom</p>
+                            </div>
+                            <div class="date-time-data">
+                                <p class="date">19 juillet 2020</p>
+                                <p class="time">10:00</p>
+                            </div>
+                        </div>
+                        <div class="post">
+                            <div class="post-image-texte">
+                                <img src="images/foret.jpg" alt="">
+                                <div class="only-text">
+                                    <h2>Titre post</h2>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
+                                        tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse 
+                                        ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bottom-post">
+                            <a href=""><img src="images/like.png" alt=""></a>
+                            <p>0</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fin post item -->
 
-    <h1>Listing des articles</h1>
-
-    <script type="application/javascript" src="node_modules/axios/dist/axios.min.js"></script>
-    <script type="application/javascript" src="js/index.js"></script>
-</body>
+            </div>
+        </div>
+        <script type="application/javascript" src="node_modules/axios/dist/axios.min.js"></script>
+        <script type="application/javascript" src="js/index.js"></script>
+    </body>
 </html>

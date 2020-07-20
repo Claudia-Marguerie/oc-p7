@@ -1,0 +1,138 @@
+@import "../components/variables";
+
+.nav-header {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-right: 40px;
+    color: $clr-primary-dark;
+    font-size: 1.1em;
+    .user-name {
+        width: 180px;
+        display: flex;
+        align-items: center;
+        margin-right: 40px;
+        img {
+            height: 20px;
+            margin-right: 8px;
+        }
+        p {
+            margin-right: 10px;
+        }
+    }
+    .logout {
+        a {
+            text-decoration: none;
+            color: rgba($color: $clr-primary-dark, $alpha: 0.5);
+        }
+    }
+}
+
+.container-page {
+    width: 60%;
+    margin: auto;
+    .add_post_btn {
+        width: 200px;
+        border: 2px solid $clr-primary;
+        border-radius: 12px;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        padding: 7px;
+        img {
+            width: 20px;
+            margin-right: 10px;
+        }
+        a {
+            text-decoration: none;
+            font-size: 1.1em;
+            font-family: Arial, Helvetica, sans-serif;
+            color: $clr-primary-dark;
+            font-weight: bold;
+        }
+    }
+    h1 {
+        font-family: Arial, Helvetica, sans-serif;
+        color: $clr-primary-dark;
+    }
+    #container_posts {
+        width: 100%;
+        height: auto;
+        .post-item {
+            background-color: $clr-secondary;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+            .all-items {
+                width: 90%;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 1.1em;
+                .top-post {
+                    width: 100%;
+                    height: 70px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    color: $clr-primary-dark;
+                    .user-data {
+                        display: flex;
+                        align-items: center;
+                        img {
+                            height: 50px;
+                            margin-right: 10px;
+                        }
+                        p {
+                            margin-right: 10px;
+                            font-size: 1.2em;
+                        }
+                    }
+                    .date-time-data {
+                        width: 200px;
+                        display: flex;
+                        justify-content: space-between;
+                    }
+                }
+                .post {
+                    background-color: white;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    .post-image-texte{
+                        margin: 20px;
+                        display: flex;
+                        img {
+                            width: auto;
+                            height: 300px;
+                        }
+                        .only-text {
+                            flex-direction: column;
+                            margin-left: 15px;
+                            h2 {
+                                margin-top: 0;
+                            }
+                        }
+                    }
+                }
+                .bottom-post {
+                    display: flex;
+                    align-items: center;
+                    margin: 20px 0;
+                    img {
+                        height: 20px;
+                        margin-right: 10px;
+                    }
+                    p {
+                        color: $clr-primary-dark;
+                        font-family: Arial, Helvetica, sans-serif;
+                        font-size: 1.1em;
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
+}
