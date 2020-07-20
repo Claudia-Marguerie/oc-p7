@@ -106,7 +106,8 @@
                         display: flex;
                         img {
                             width: auto;
-                            height: 300px;
+                            // height: 300px;
+                            max-height: 300px;
                         }
                         .only-text {
                             flex-direction: column;

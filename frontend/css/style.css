@@ -238,7 +238,7 @@ header img {
 }
 .container-page #container_posts .post-item .all-items .post .post-image-texte img {
   width: auto;
-  height: 300px;
+  max-height: 300px;
 }
 .container-page #container_posts .post-item .all-items .post .post-image-texte .only-text {
   flex-direction: column;
