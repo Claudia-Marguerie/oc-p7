@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./css/style.css" />
+        <title>Ajouter un post</title>
+    </head>
+    <body>
+        <header>
+            <img src="images/icon-left-font.png" alt="Logo Groupomania">
+            <div class="nav-header">
+                <div class="user-name">
+                    <img src="images/user.png" alt="Picto user">
+                    <p>Prénom</p><p> Nom</p>
+                </div>
+                <div class="logout">
+                    <a href="signup.html">Déconnexion</a>
+                </div>
+            </div>
+        </header>
+        <div class="container-form2">
+            <nav class="nav-text">
+                <a href="index.html"><h3>Posts /</h3></a>
+                <h3>Ajouter un post</h3>
+            </nav>
+            <form class="form">
+                <div class="form-item2">
+                    <label for="title">Titre :</label>
+                    <input id="title" type="text" placeholder="Titre" name="title">
+                </div>
+                <div class="form-item2">
+                    <label for="message">Message :</label>
+                    <textarea id="message" placeholder="Ecrivez votre texte à partager" name="message"></textarea>
+                </div>
+                <div class="btn-multimedia">
+                    <button class="btn-multimedia--photo"><img src="images/camera.png" alt="picto camera"> Ajouter une photo</button>
+                    <button class="btn-multimedia--video"><img src="images/video.png" alt="picto video"> Ajouter une vidéo</button>
+                </div>
+                <button class="btn-send" type="submit">Envoyer</button>
+            </form>
+        </div>
+        <script type="application/javascript" src="node_modules/axios/dist/axios.min.js"></script>
+        <script type="application/javascript" src="js/form_post.js"></script>
+    </body>
+</html>

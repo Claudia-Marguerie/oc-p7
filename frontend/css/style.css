@@ -349,4 +349,133 @@ header img {
   height: 30px;
 }
 
+.container-form2 {
+  width: 60%;
+  height: auto;
+  margin: auto auto 50px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #002155;
+}
+@media screen and (max-width: 1024px) {
+  .container-form2 {
+    width: 80%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .container-form2 {
+    width: 90%;
+  }
+}
+.container-form2 .nav-text {
+  width: 100%;
+  display: flex;
+}
+.container-form2 .nav-text a {
+  text-decoration: none;
+  color: rgba(0, 33, 85, 0.5);
+  margin-right: 10px;
+}
+.container-form2 .form {
+  width: 80%;
+  margin-top: 20px;
+  padding: 25px;
+  font-size: 1.1em;
+  background-color: rgba(191, 208, 235, 0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+@media screen and (max-width: 768px) {
+  .container-form2 .form {
+    width: 90%;
+    padding: 15px;
+  }
+}
+.container-form2 .form .form-item2 {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  line-height: 2.8;
+}
+.container-form2 .form .form-item2 input {
+  height: 35px;
+  border: 1.5px solid #002155;
+  border-radius: 8px;
+  font-size: 1em;
+}
+.container-form2 .form .form-item2 textarea {
+  height: 250px;
+  border: 1.5px solid #002155;
+  border-radius: 8px;
+  font-size: 1em;
+}
+.container-form2 .btn-multimedia {
+  width: 90%;
+  margin: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+@media screen and (max-width: 579px) {
+  .container-form2 .btn-multimedia {
+    justify-content: center;
+  }
+}
+.container-form2 .btn-multimedia--photo {
+  background-color: #963307;
+}
+@media screen and (max-width: 584px) {
+  .container-form2 .btn-multimedia--photo {
+    margin-bottom: 20px;
+  }
+}
+.container-form2 .btn-multimedia--photo:hover {
+  background-color: #4d1a03;
+}
+.container-form2 .btn-multimedia--video {
+  background-color: #067a7a;
+}
+.container-form2 .btn-multimedia--video:hover {
+  background-color: #034e4e;
+}
+.container-form2 .btn-multimedia button {
+  width: 200px;
+  padding: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1em;
+  color: white;
+  text-decoration: none;
+  border: none;
+  border-radius: 20px;
+}
+.container-form2 .btn-multimedia button img {
+  width: 18px;
+}
+.container-form2 .btn-send {
+  width: 70%;
+  padding: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1em;
+  color: white;
+  background-color: #002155;
+  text-decoration: none;
+  border: none;
+  border-radius: 20px;
+}
+@media screen and (max-width: 768px) {
+  .container-form2 .btn-send {
+    width: 80%;
+  }
+}
+@media screen and (max-width: 425px) {
+  .container-form2 .btn-send {
+    width: 90%;
+  }
+}
+
 /*# sourceMappingURL=style.css.map */
