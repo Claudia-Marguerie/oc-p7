@@ -10,7 +10,7 @@ html, body {
 }
 
 header {
-  height: 120px;
+  min-height: 120px;
   padding-left: 30px;
   display: flex;
   align-items: center;
@@ -128,6 +128,9 @@ header img {
   color: #002155;
 }
 
+header {
+  justify-content: space-between;
+}
 @media screen and (max-width: 694px) {
   header {
     flex-direction: column;
@@ -137,31 +140,20 @@ header img {
 }
 
 .nav-header {
-  width: 100%;
+  width: auto;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
   align-items: center;
   font-family: Arial, Helvetica, sans-serif;
-  margin-right: 40px;
   color: #002155;
   font-size: 1.1em;
-}
-@media screen and (max-width: 694px) {
-  .nav-header {
-    margin-right: 0px;
-    justify-content: center;
-  }
-}
-@media screen and (max-width: 320px) {
-  .nav-header {
-    width: 90%;
-  }
+  margin-right: 20px;
 }
 .nav-header .user-name {
-  width: 180px;
+  width: auto;
   display: flex;
+  justify-content: center;
   align-items: center;
-  margin-right: 40px;
 }
 .nav-header .user-name img {
   height: 20px;
@@ -170,9 +162,21 @@ header img {
 .nav-header .user-name p {
   margin-right: 10px;
 }
-.nav-header .logout a {
+.nav-header .delete-logout {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.nav-header .delete-logout .delete-user {
+  text-align: center;
+  text-decoration: none;
+  color: #efa293;
+  margin: 0 20px;
+}
+.nav-header .delete-logout .logout-user {
   text-decoration: none;
   color: rgba(0, 33, 85, 0.5);
+  margin: 0 20px;
 }
 
 .container-page {
@@ -186,17 +190,13 @@ header img {
 }
 .container-page .add_post_btn {
   width: 200px;
+  margin-top: 40px;
   border: 2px solid #bfd0eb;
   border-radius: 12px;
   display: flex;
   justify-content: left;
   align-items: center;
   padding: 7px;
-}
-@media screen and (max-width: 694px) {
-  .container-page .add_post_btn {
-    margin-top: 20px;
-  }
 }
 .container-page .add_post_btn img {
   width: 20px;
@@ -373,6 +373,9 @@ header img {
 .container-form2 .nav-text {
   width: 100%;
   display: flex;
+}
+.container-form2 .nav-text h3 {
+  font-weight: lighter;
 }
 .container-form2 .nav-text a {
   text-decoration: none;

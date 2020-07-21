@@ -1,6 +1,7 @@
 @import "../components/variables";
 
 header {
+    justify-content: space-between;
     @media screen and (max-width: 694px) {
         flex-direction: column;
         padding-left: 0;
@@ -9,26 +10,33 @@ header {
 }
 
 .nav-header {
-    width: 100%;
+    width: auto;
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
+    // align-items: flex-start;
     align-items: center;
     font-family: Arial, Helvetica, sans-serif;
-    margin-right: 40px;
+    // margin-right: 40px;
     color: $clr-primary-dark;
     font-size: 1.1em;
-    @media screen and (max-width: 694px) {
-        margin-right: 0px;
-        justify-content: center;
-    }
-    @media screen and (max-width: 320px) {
-        width: 90%;
-    }
+    margin-right: 20px;
+    // @media screen and (max-width: 879px) {
+    //     width: 80%;
+    //     flex-wrap: wrap;
+    // }
+    // @media screen and (max-width: 694px) {
+    //     margin-right: 0px;
+    //     justify-content: center;
+    // }
+    // @media screen and (max-width: 320px) {
+    //     width: 90%;
+    // }
     .user-name {
-        width: 180px;
+        width: auto;
         display: flex;
+        justify-content: center;
         align-items: center;
-        margin-right: 40px;
+        // margin-right: 40px;
         img {
             height: 20px;
             margin-right: 8px;
@@ -37,10 +45,27 @@ header {
             margin-right: 10px;
         }
     }
-    .logout {
-        a {
+    .delete-logout {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        // @media screen and (max-width: 1024px) {
+        //     width: 60%;
+        // }
+        // @media screen and (max-width: 768px) {
+        //     width: 80%;
+        // }
+        .delete-user {
+            text-align: center;
+            text-decoration: none;
+            // margin-right: 20px;
+            color: #efa293;
+            margin: 0 20px;
+        }
+        .logout-user {
             text-decoration: none;
             color: rgba($color: $clr-primary-dark, $alpha: 0.5);
+            margin: 0 20px;
         }
     }
 }
@@ -53,15 +78,13 @@ header {
     }
     .add_post_btn {
         width: 200px;
+        margin-top: 40px;
         border: 2px solid $clr-primary;
         border-radius: 12px;
         display: flex;
         justify-content: left;
         align-items: center;
         padding: 7px;
-        @media screen and (max-width: 694px) {
-            margin-top: 20px;
-        }
         img {
             width: 20px;
             margin-right: 10px;
