@@ -315,18 +315,63 @@ header {
 }
 .container-page #container_posts .post-item .all-items .bottom-post {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   margin: 20px 0;
 }
-.container-page #container_posts .post-item .all-items .bottom-post img {
+.container-page #container_posts .post-item .all-items .bottom-post .like {
+  display: flex;
+  align-items: center;
+}
+.container-page #container_posts .post-item .all-items .bottom-post .like img {
   height: 20px;
   margin-right: 10px;
 }
-.container-page #container_posts .post-item .all-items .bottom-post p {
+.container-page #container_posts .post-item .all-items .bottom-post .like p {
   color: #002155;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 1.1em;
   margin: 0;
+}
+.container-page #container_posts .post-item .all-items .bottom-post .btn-admin {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+@media screen and (max-width: 375px) {
+  .container-page #container_posts .post-item .all-items .bottom-post .btn-admin {
+    flex-direction: column;
+    width: 60%;
+  }
+}
+.container-page #container_posts .post-item .all-items .bottom-post .btn-admin--update {
+  background-color: #4b1d75;
+  margin-right: 20px;
+}
+@media screen and (max-width: 375px) {
+  .container-page #container_posts .post-item .all-items .bottom-post .btn-admin--update {
+    margin-right: 0px;
+    margin-bottom: 10px;
+  }
+}
+.container-page #container_posts .post-item .all-items .bottom-post .btn-admin--update:hover {
+  background-color: #775894;
+}
+.container-page #container_posts .post-item .all-items .bottom-post .btn-admin--delete {
+  background-color: #660d66;
+}
+.container-page #container_posts .post-item .all-items .bottom-post .btn-admin--delete:hover {
+  background-color: #bb4cbb;
+}
+.container-page #container_posts .post-item .all-items .bottom-post .btn-admin button {
+  width: auto;
+  padding: 8px 30px;
+  text-decoration: none;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1em;
+  border: none;
+  border-radius: 15px;
+  color: white;
 }
 
 #myBtn {
