@@ -6,6 +6,11 @@ axios.get('http://localhost:3000/api/status').then((res) => {
 })
 
 
+
+
+
+
+
 //Get the TOP button:
 mybutton = document.getElementById("myBtn");
 

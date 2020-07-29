@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="./css/style.css" />
+        <link rel="shortcut icon" type="image/x-icon" href="./images/favicon_groupomania.ico">
         <title>Créer mon compte</title>
     </head>
     <body>
@@ -16,21 +17,21 @@
                 <a class="navigation--diactive" href="signin.html"><h1>Connexion</h1> </a>
             </div>
             <div class="container-form">
-                <form>
+                <form action="" method="post">
                     <div class="form-item">
-                        <label for="last_name">Nom :</label>
-                        <input id="last_name" type="text" placeholder="Nom" name="last_name" required>
+                        <label for="last_name">Nom *:</label>
+                        <input id="last_name" type="text" placeholder="Nom" name="last_name" pattern="^\D*$" required>
                     </div>
                     <div class="form-item">
-                        <label for="first_name">Prénom :</label>
-                        <input id="first_name" type="text" placeholder="Prénom" name="first_name" required>
+                        <label for="first_name">Prénom *:</label>
+                        <input id="first_name" type="text" placeholder="Prénom" name="first_name" pattern="^\D*$" required>
                     </div>
                     <div class="form-item">
-                        <label for="email">E-mail :</label>
+                        <label for="email">E-mail *:</label>
                         <input id="email" type="email" placeholder="E-mail" name="email" required>
                     </div>
                     <div class="form-item">
-                        <label for="password">Password :</label>
+                        <label for="password">Password *:</label>
                         <input id="password" type="password" placeholder="Password" name="password" required>
                     </div>
                     <div class="form-bottom">
@@ -40,5 +41,6 @@
                 </form>
             </div>
         </div>
+        <script type="application/javascript" src="js/signup.js"></script>
     </body>
 </html>

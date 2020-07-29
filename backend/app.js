@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const {Sequelize} = require('sequelize');
 require('dotenv').config()
+
 const User = require('./models/user')
 
 const sequelize = new Sequelize(`mysql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`)
@@ -37,8 +38,8 @@ app.get('/api/status', function (req, res) {
 app.post('/user', function (req, res) {
     const user = sequelize.models.User
     user.create(
-        {firstName: 'Claudia', lastName: 'Claudia', birthDate: new Date()},
-        {fields: ['firstName', 'lastName', 'birthDate']}).then((res) => {
+        {firstName: 'Claudia', lastName: 'Claudia', email: new Email(), password: new Password()},
+        {fields: ['firstName', 'lastName', 'email', 'password']}).then((res) => {
         res.status(201)
     }).catch(() => {
         res.status(401)
