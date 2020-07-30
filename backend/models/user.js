@@ -8,16 +8,16 @@ function User(sequelize){
             allowNull: false
         },
         firstName: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
             allowNull: false
             // allowNull defaults to true
         },
         email: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
             allowNull: false
         },
         password: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
             allowNull: false
         }
     });
