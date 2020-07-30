@@ -1,5 +1,6 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
+const userRoutes = require('./routes/user');
 const {Sequelize} = require('sequelize');
 require('dotenv').config()
 
@@ -49,3 +50,7 @@ app.post('/user', function (req, res) {
 app.listen(3000, function () {
     console.log('Example app listening on port 3000!')
 })
+
+app.use('/api/auth', userRoutes);
+
+module.exports = app;
