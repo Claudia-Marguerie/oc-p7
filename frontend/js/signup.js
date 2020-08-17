@@ -24,12 +24,12 @@ function signUp(event){
 
     const userObject = JSON.stringify(user);
     
-    axios.post('http://localhost:3001/api/signup', userObject).then((response) => {
-       // userId = response.body//.userId
-        // console.log(userId);
-        // const { token } = response.body.token;
-       // localStorage.setItem("userId", JSON.stringify(userId)) // on converti la liste en string pour qu'elle soit lisible par javascript. On écrasse le panier stocké en local avec le panier à 0
-        // localStorage.setItem('token', token);
+    axios.post('http://localhost:3001/signup', userObject).then((response) => {
+        userId = response.body//.userId
+        console.log(userId);
+        const { token } = response.body.token;
+        localStorage.setItem("userId", JSON.stringify(userId)) // on converti la liste en string pour qu'elle soit lisible par javascript. On écrasse le panier stocké en local avec le panier à 0
+        localStorage.setItem('token', token);
 
         document.location.assign('index.html'); // on envoie l'id de la commande et le prix total vers la page de confirmation de commande
     }), (err) => {
