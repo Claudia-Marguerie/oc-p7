@@ -1,26 +1,15 @@
-const { DataTypes } = require('sequelize');
+'use strict';
 
-function User(sequelize){
-    sequelize.define('User', {
-        // Model attributes are defined here
-        lastName: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        firstName: {
-            type: DataTypes.STRING,
-            allowNull: false
-            // allowNull defaults to true
-        },
-        email: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        password: {
-            type: DataTypes.STRING,
-            allowNull: false
-        }
-    });
+const { sequelize } = require(".");
+
+module.exports = (sequelize, DataTypes) => {
+  const User = sequelize.define('User', {
+    lastName: DataTypes.STRING,
+    firstName: DataTypes.STRING,
+    email: DataTypes.STRING,
+    password: DataTypes.STRING,
+    userAdmin: DataTypes.BOOLEAN
+  });
+  sequelize.sync()
+  return User;
 }
-
-module.exports = User;
