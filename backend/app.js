@@ -1,24 +1,7 @@
 const express = require('express');
 const app = express();
 const userRoutes = require('./routes/user');
-const {Sequelize} = require('sequelize');
-require('dotenv').config()
-
-const User = require('./models/user')
-
-const sequelize = new Sequelize(`mysql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`)
-
-
-try {
-    sequelize.authenticate().then(() => {
-        User(sequelize)
-        sequelize.sync()
-
-
-    });
-} catch (error) {
-    console.error('Unable to connect to the database:', error);
-}
+const bodyParser = require('body-parser');
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*'); // tout le monde a le droit d'acceder à notre API
@@ -28,34 +11,11 @@ app.use((req, res, next) => {
 });
 
 
-app.get('/', function (req, res) {
-    res.send('Hello World!')
-})
-
-app.get('/api/status', function (req, res) {
-    res.send({status: 'ok'})
-})
-
-app.post('/user', function (req, res) {
-    const user = sequelize.models.User
-    user.create(
-        {firstName: 'Claudia', lastName: 'Claudia', email: new Email(), password: new Password()},
-        {fields: ['firstName', 'lastName', 'email', 'password']}).then((res) => {
-        res.status(201)
-    }).catch(() => {
-        res.status(401)
-    })
-})
-
-app.listen(3001, function () {
-    console.log('Example app listening on port 3000!')
-})
-
 app.use(bodyParser.json());
 
-app.use('/images', express.static(path.join(__dirname, 'images')));
+//app.use('/images', express.static(path.join(__dirname, 'images')));
 
-app.use('/api/posts', postRoutes);
-app.use('/api/auth', userRoutes);
+/*app.use('/api/posts', postRoutes);*/
+app.use('/api/users', userRoutes);
 
 module.exports = app;
