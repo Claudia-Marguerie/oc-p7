@@ -31,7 +31,7 @@ function signUp(event){
         localStorage.setItem("userId", JSON.stringify(userId)) // on converti la liste en string pour qu'elle soit lisible par javascript. On écrasse le panier stocké en local avec le panier à 0
         localStorage.setItem('token', token);
 
-        document.location.assign('index.html'); // on envoie l'id de la commande et le prix total vers la page de confirmation de commande
+        document.location.assign('index.html');
     }), (err) => {
             console.log(err)
         }

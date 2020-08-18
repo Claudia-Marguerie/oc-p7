@@ -1,14 +1,17 @@
+const logIn = document.querySelector('form');
 
+logIn.addEventListener('submit', function (e) {
+  e.preventDefault()
+  const email = e.target.email.value;
+  const password = e.target.password.value;
 
-function login(){
-    const email = document.getElementById("email").value
-    const password = document.getElementById("password").value
-
-    for(i=0; i < userObject.length; i++){
-        if(email == userObject[i].email && password == userObject[i]).password {
-            console.log("Vous êtes connecté!")
-            return
-        }
+  axios.post('http://localhost:3000/login', { email, password }).then((resp) => {
+    if (resp.data.status === 'OK') {
+      localStorage.setItem('token', resp.data.token);
+      window.location.href = 'index.html';
     }
-    console.log("E-mail ou mot de passe incorrect!")
-} 
+  }, (err) => {
+    alert("Votre compte n'existe pas, merci de vous inscrire d'abord");
+    window.location.href = 'signup.html'
+  });
+});
