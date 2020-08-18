@@ -1,20 +1,3 @@
-class userObject {
-    constructor(firstname, lastname, email, password){
-        this.lastName = lastname;
-        this.firstName = firstname;
-        this.email = email;
-        this.password = password;
-    }
-}
-
-const user = new userObject()
-
-function formValid() { 
-    
-}
-
-const userId = '';
-
 function signUp(event){
     event.preventDefault();
     const user = {};

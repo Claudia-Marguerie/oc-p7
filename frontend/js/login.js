@@ -1,17 +1,22 @@
-const logIn = document.querySelector('form');
+function login(event){
+  event.preventDefault();
+  const user = {};
+  user.email = event.target.email.value;
+  user.password = event.target.password.value;
 
-logIn.addEventListener('submit', function (e) {
-  e.preventDefault()
-  const email = e.target.email.value;
-  const password = e.target.password.value;
+  // const userObject = JSON.stringify(user);
+  console.log(user)
 
-  axios.post('http://localhost:3000/login', { email, password }).then((resp) => {
-    if (resp.data.status === 'OK') {
-      localStorage.setItem('token', resp.data.token);
-      window.location.href = 'index.html';
-    }
-  }, (err) => {
-    alert("Votre compte n'existe pas, merci de vous inscrire d'abord");
-    window.location.href = 'signup.html'
-  });
-});
+  axios.post('http://localhost:3000/api/users/login', user).then((response) => {
+      const data = response.data
+      console.log(data)
+    //  if (response.data.auth === 'Succes') {
+        localStorage.setItem('token', data.token);
+        window.location.href = 'index.html';
+      //}
+  }), (err) => {
+          console.log(err)
+      }
+}
+
+document.getElementById('form').addEventListener('submit', login);
