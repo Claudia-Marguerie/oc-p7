@@ -39,22 +39,80 @@ function displayPosts(){
     postList = res.data;
     for(let i = 0; i < postList.length; i++){ //Pour chaque post
       if (userData === userId) { //Si le créateur du post es le même que l'userID
-
+        const listPost = document.querySelector('#container_posts'); 
+        const postListItem = document.createElement('div');
+        postListItem.innerHTML = // Afficher le post (tout le HTML) avec boutons de modif / effacage
+        '<div class="post-item">'+
+          '<div class="all-items">'+
+            '<div class="top-post">'+
+                '<div class="user-data">'+
+                    '<img src="images/ball_logo.png" alt="Sphère du logo">'+
+                    '<p>'+post.firstname+'</p>'+'<p>'+post.lastname+'</p>'+
+                '</div>'+
+                '<div class="date-time-data">'+
+                    '<p class="date">20 juillet 2020</p>'+ //voir comment afficher la date
+                    '<p class="time">12:00</p>'+ // voir comment afficher l'heure
+                '</div>'+
+            '</div>'+
+            '<div class="post">'+
+                '<div class="post-image-texte">'+
+                    '<img src="'+post.attachment+'" alt="">'+
+                    '<div class="only-text">'+
+                        '<h2>'+post.title+'</h2>'+
+                        '<p>'+post.contentPost+'</p>'+
+                    '</div>'+
+                '</div>'+
+            '</div>'+
+            '<div class="bottom-post">'+
+                '<div class="like">'+
+                    '<a href=""><img src="images/like.png" alt=""></a>'+
+                    '<p id="like-post">'+post.likes+'</p>'+
+                '</div>'+
+                '<div class="btn-user">'+
+                    '<button class="btn-user--update">Modifier</button>'+
+                    '<button class="btn-user--delete">Effacer</button>'+
+                '</div>'+
+            '</div>'+
+        '</div>'+
+      '</div>'
+      listPost.appendChild(postListItem);
+      } else { // sinon
+        const listPost = document.querySelector('#container_posts'); 
+        const postListItem = document.createElement('div');
+        postListItem.innerHTML = // Afficher le post sans boutons de modif / effacage 
+        '<div class="post-item">'+
+          '<div class="all-items">'+
+            '<div class="top-post">'+
+                '<div class="user-data">'+
+                    '<img src="images/ball_logo.png" alt="Sphère du logo">'+
+                    '<p>'+post.firstname+'</p>'+'<p>'+post.lastname+'</p>'+
+                '</div>'+
+                '<div class="date-time-data">'+
+                    '<p class="date">20 juillet 2020</p>'+ //voir comment afficher la date
+                    '<p class="time">12:00</p>'+ // voir comment afficher l'heure
+                '</div>'+
+            '</div>'+
+            '<div class="post">'+
+                '<div class="post-image-texte">'+
+                    '<img src="'+post.attachment+'" alt="">'+
+                    '<div class="only-text">'+
+                        '<h2>'+post.title+'</h2>'+
+                        '<p>'+post.contentPost+'</p>'+
+                    '</div>'+
+                '</div>'+
+            '</div>'+
+            '<div class="bottom-post">'+
+                '<div class="like">'+
+                    '<a href=""><img src="images/like.png" alt=""></a>'+
+                    '<p id="like-post">'+post.likes+'</p>'+
+                '</div>'+
+            '</div>'+
+        '</div>'+
+      '</div>'
+      listPost.appendChild(postListItem);
       }
-      
-        // AFFICHER LE POST (TOUT LE HTML) AVEC BOUTONS DE MODIF / EFFACAGE
-      //SINON
-        // AFFICHER LE POST SANS BOUTON DE MODIF
     }
   })
-  // const listPosts = document.querySelector('.post');
-  // const postsListItem = document.createElement('div class="post-image-texte"');
-  // postsListItem.innerHTML = 
-  // '<img src="' + post.attachment + '"alt="">'+
-  // '<div class="only-text">'+
-  //     '<h2>'+post.title+'</h2>'+
-  //     '<p>'+post.contentPost+'</p>'
-  // listPosts.appendChild(postsListItem);
 }
 
 

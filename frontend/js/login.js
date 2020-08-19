@@ -10,11 +10,11 @@ function login(event){
   axios.post('http://localhost:3000/api/users/login', user).then((response) => {
       const data = response.data
       console.log(data)
-    //  if (response.data.auth === 'Succes') {
+     if (response.data.auth === 'Succes') {
         localStorage.setItem('userId', data.userId);
         localStorage.setItem('token', data.token);
         window.location.href = 'index.html';
-      //}
+        }
   }), (err) => {
           console.log(err)
       }

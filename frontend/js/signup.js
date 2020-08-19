@@ -11,7 +11,7 @@ function signUp(event){
 
     axios.post('http://localhost:3000/api/users/signup', user).then((response) => {
         const data = response.data
-        localStorage.setItem("user", JSON.stringify(data.user)) // on converti la liste en string pour qu'elle soit lisible par javascript. On écrasse le panier stocké en local avec le panier à 0
+        localStorage.setItem("user", JSON.stringify(data.user)) // on converti la liste en string pour qu'elle soit lisible par javascript. 
         localStorage.setItem('token', data.token);
         document.location.href = 'index.html'; // Redirection vers la page d'accueil
     }), (err) => {

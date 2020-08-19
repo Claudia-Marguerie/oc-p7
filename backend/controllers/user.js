@@ -30,7 +30,7 @@ exports.signup = (req, res, next) => {
 
 
 exports.login = (req, res, next) => {
-    models.user.findOne({email: req.body.email})
+    User.findOne({email: req.body.email})
         .then(user => {
             if (!user) {
                 return res.status(401).json({error: 'Utilisateur non trouvé !'});
@@ -41,7 +41,7 @@ exports.login = (req, res, next) => {
                     return res.status(401).json({error: 'Mot de passe incorrect !'});
                 }
                 res.status(200).json({
-                    //auth: 'Succes',
+                    auth: 'Succes',
                     userId: user.id,
                     token: jwt.sign(
                         {userId: user.id},
@@ -54,6 +54,7 @@ exports.login = (req, res, next) => {
         })
         .catch(error => res.status(500).json({error}));
 };
+
 
 // il fqyt que ca renvoie un objet user tel que:
 // {firstname: 'firstname', lastname: 'lastname'};
