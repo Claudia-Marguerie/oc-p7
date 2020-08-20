@@ -1,7 +1,10 @@
 const express = require('express');
-const app = express();
-const userRoutes = require('./routes/user');
 const bodyParser = require('body-parser');
+const path = require('path');
+const app = express();
+
+// const postRoutes = require('./routes/post');
+const userRoutes = require('./routes/user');
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*'); // tout le monde a le droit d'acceder à notre API

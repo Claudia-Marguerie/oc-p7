@@ -9,7 +9,7 @@ exports.createPost = (req, res, next) => {
     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   });
   post.save()
-    .then(() => res.status(201).json({ message: 'Sauce enregistrée !'}))
+    .then(() => res.status(201).json({ message: 'Post enregistré !'}))
     .catch(error => res.status(400).json({ error }));
 };
 

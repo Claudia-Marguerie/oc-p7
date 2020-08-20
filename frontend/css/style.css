@@ -427,7 +427,7 @@ header {
   color: rgba(0, 33, 85, 0.5);
   margin-right: 10px;
 }
-.container-form2 .form {
+.container-form2 #form {
   width: 80%;
   margin-top: 20px;
   padding: 25px;
@@ -439,24 +439,24 @@ header {
   align-items: center;
 }
 @media screen and (max-width: 768px) {
-  .container-form2 .form {
+  .container-form2 #form {
     width: 90%;
     padding: 15px;
   }
 }
-.container-form2 .form .form-item2 {
+.container-form2 #form .form-item2 {
   width: 90%;
   display: flex;
   flex-direction: column;
   line-height: 2.8;
 }
-.container-form2 .form .form-item2 input {
+.container-form2 #form .form-item2 input {
   height: 35px;
   border: 1.5px solid #002155;
   border-radius: 8px;
   font-size: 1em;
 }
-.container-form2 .form .form-item2 textarea {
+.container-form2 #form .form-item2 textarea {
   height: 250px;
   border: 1.5px solid #002155;
   border-radius: 8px;

@@ -33,12 +33,22 @@ function displayName(){
 }
 
 
+    // title: DataTypes.STRING,
+    // contentPost: DataTypes.STRING,
+    // attachment: DataTypes.STRING,
+    // likes: DataTypes.INTEGER,
+    // authorId: DataTypes.STRING,
+    // authorFirstName: DataTypes.STRING,
+    // authorLastName: DataTypes.STRING,
+    // creationDateTime: DataTypes.NUMBER,
+
+
 function displayPosts(){
   axios.get('http://localhost:3000/api/posts').then((data) => {
     console.log(res.data)
     postList = res.data;
     for(let i = 0; i < postList.length; i++){ //Pour chaque post
-      if (userData === userId) { //Si le créateur du post es le même que l'userID
+      if (postList[i].author === userId) { //Si le créateur du post es le même que l'userID
         const listPost = document.querySelector('#container_posts'); 
         const postListItem = document.createElement('div');
         postListItem.innerHTML = // Afficher le post (tout le HTML) avec boutons de modif / effacage
@@ -47,26 +57,26 @@ function displayPosts(){
             '<div class="top-post">'+
                 '<div class="user-data">'+
                     '<img src="images/ball_logo.png" alt="Sphère du logo">'+
-                    '<p>'+post.firstname+'</p>'+'<p>'+post.lastname+'</p>'+
+                    '<p>'+postList[i].authorFirstName+'</p>'+'<p>'+postList[i].authorLastName+'</p>'+
                 '</div>'+
                 '<div class="date-time-data">'+
-                    '<p class="date">20 juillet 2020</p>'+ //voir comment afficher la date
+                    '<p class="date">'+postList[i].creationDateTime+'</p>'+ //voir comment afficher la date
                     '<p class="time">12:00</p>'+ // voir comment afficher l'heure
                 '</div>'+
             '</div>'+
             '<div class="post">'+
                 '<div class="post-image-texte">'+
-                    '<img src="'+post.attachment+'" alt="">'+
+                    '<img src="'+postList[i].attachment+'" alt="">'+
                     '<div class="only-text">'+
-                        '<h2>'+post.title+'</h2>'+
-                        '<p>'+post.contentPost+'</p>'+
+                        '<h2>'+postList[i].title+'</h2>'+
+                        '<p>'+postList[i].contentPost+'</p>'+
                     '</div>'+
                 '</div>'+
             '</div>'+
             '<div class="bottom-post">'+
                 '<div class="like">'+
                     '<a href=""><img src="images/like.png" alt=""></a>'+
-                    '<p id="like-post">'+post.likes+'</p>'+
+                    '<p id="like-post">'+postList[i].likes+'</p>'+
                 '</div>'+
                 '<div class="btn-user">'+
                     '<button class="btn-user--update">Modifier</button>'+
@@ -85,26 +95,26 @@ function displayPosts(){
             '<div class="top-post">'+
                 '<div class="user-data">'+
                     '<img src="images/ball_logo.png" alt="Sphère du logo">'+
-                    '<p>'+post.firstname+'</p>'+'<p>'+post.lastname+'</p>'+
+                    '<p>'+postList[i].authorFirstName+'</p>'+'<p>'+postList[i].authorLastName+'</p>'+
                 '</div>'+
                 '<div class="date-time-data">'+
-                    '<p class="date">20 juillet 2020</p>'+ //voir comment afficher la date
+                    '<p class="date">'+postList[i].creationDateTime+'</p>'+ //voir comment afficher la date
                     '<p class="time">12:00</p>'+ // voir comment afficher l'heure
                 '</div>'+
             '</div>'+
             '<div class="post">'+
                 '<div class="post-image-texte">'+
-                    '<img src="'+post.attachment+'" alt="">'+
+                    '<img src="'+postList[i].attachment+'" alt="">'+
                     '<div class="only-text">'+
-                        '<h2>'+post.title+'</h2>'+
-                        '<p>'+post.contentPost+'</p>'+
+                        '<h2>'+postList[i].title+'</h2>'+
+                        '<p>'+postList[i].contentPost+'</p>'+
                     '</div>'+
                 '</div>'+
             '</div>'+
             '<div class="bottom-post">'+
                 '<div class="like">'+
                     '<a href=""><img src="images/like.png" alt=""></a>'+
-                    '<p id="like-post">'+post.likes+'</p>'+
+                    '<p id="like-post">'+postList[i].likes+'</p>'+
                 '</div>'+
             '</div>'+
         '</div>'+
