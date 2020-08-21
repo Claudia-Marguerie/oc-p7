@@ -42,7 +42,7 @@ exports.login = (req, res, next) => {
                 }
                 res.status(200).json({
                     auth: 'Succes',
-                    userId: user.id,
+                    user: user,
                     token: jwt.sign(
                         {userId: user.id},
                         'RANDOM_TOKEN_SECRET',
@@ -59,7 +59,11 @@ exports.login = (req, res, next) => {
 // il faut que ca renvoie un objet user tel que:
 // {firstname: 'firstname', lastname: 'lastname'};
 exports.userData = (req, res, next) => {
-    models.User.findById(req.user.id).then(
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+    const userId = decodedToken.userId;
+
+    models.User.findByPk(userId).then(
       (user) => {
         if (!user) {
           return res.status(404).send(new Error('User not found!'));

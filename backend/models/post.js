@@ -6,10 +6,6 @@ module.exports = (sequelize, DataTypes) => {
     contentPost: DataTypes.STRING,
     attachment: DataTypes.STRING,
     likes: DataTypes.INTEGER,
-    authorId: DataTypes.STRING,
-    authorFirstName: DataTypes.STRING,
-    authorLastName: DataTypes.STRING,
-    creationDateTime: DataTypes.DATE
   }, {
     classMethods: {
       associate: function (models) {
@@ -18,9 +14,9 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
           }
         })
-        // models.Post.hasMany(models.Like)
       }
     }
   });
+  sequelize.sync({ force: true}); //Supprimer cette ligne pour éviter d'effacer les données
   return Post;
 }

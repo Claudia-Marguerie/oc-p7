@@ -1,4 +1,4 @@
-const Post = require('../models/post');
+const Post = require('../models');
 const fs = require('fs');
 
 exports.createPost = (req, res, next) => {

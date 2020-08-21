@@ -11,7 +11,7 @@ function login(event){
       const data = response.data
       console.log(data)
      if (response.data.auth === 'Succes') {
-        localStorage.setItem('userId', data.userId);
+        localStorage.setItem('user', JSON.stringify(data.user));
         localStorage.setItem('token', data.token);
         window.location.href = 'index.html';
         }
