@@ -1,9 +1,10 @@
-//TODO: Vérifier si l'utilisateur est connecté, sinon renvoyer l'utilisateur vers la page de login
+//Vérifier si l'utilisateur est connecté, sinon renvoyer l'utilisateur vers la page de login
 const headers = {
     headers: {
         Authorization: 'Bearer ' + localStorage.getItem('token')
     }
 }
+
 axios.get('http://localhost:3000/api/users/me', headers).then((res) => {
     displayName(res.data)
 
@@ -12,40 +13,18 @@ axios.get('http://localhost:3000/api/users/me', headers).then((res) => {
 })
 
 
-// axios.get('http://localhost:3000/api/status').then((res) => {
-//     console.log(res.data)
-// })
-
 // Vérification de l'authentification de l'utilisateur
 const userId = localStorage.getItem('userId');
 const token = localStorage.getItem('token');
-const userAuth = false;
+// const userAuth = false;
 const postList = [];
 console.log(userId);
-
-function checkAuth() {
-    userAuth = true;
-    // a completer échange avec le serveur
-    if (!userAuth) {
-        window.location.href = 'login.html';
-    }
-}
 
 // Affichage Nom et prénom de l'utilisateur
 function displayName(userData) {
     document.querySelector('.firstname').textContent = userData.firstname;
     document.querySelector('.lastname').textContent = userData.lastname;
 }
-
-
-// title: DataTypes.STRING,
-// contentPost: DataTypes.STRING,
-// attachment: DataTypes.STRING,
-// likes: DataTypes.INTEGER,
-// authorId: DataTypes.STRING,
-// authorFirstName: DataTypes.STRING,
-// authorLastName: DataTypes.STRING,
-// creationDateTime: DataTypes.NUMBER,
 
 
 function displayPosts() {

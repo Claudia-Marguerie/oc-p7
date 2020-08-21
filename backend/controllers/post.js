@@ -1,6 +1,7 @@
 const Post = require('../models');
 const fs = require('fs');
 
+
 exports.createPost = (req, res, next) => {
   const postObject = JSON.parse(req.body.post);
   delete postObject.id;
@@ -71,7 +72,7 @@ exports.likePost = (req, res, next) => {
           .catch(error => res.status(400).json({ error }));
         }
         else if(like == -1){ // s'il aime pas le post
-          Post.updateOne({ id: postId }, {
+          models.Post.updateOne({ id: postId }, {
             $inc: { dislikes: 1 }, // incrementer la valeur de dislikes
             $addToSet: { usersDisliked: currentUserId }, // ajouter son userId dans la liste de usersDisliked
           })
@@ -80,7 +81,7 @@ exports.likePost = (req, res, next) => {
         }
       } else if(like == 0) { // si l'utilisatuer annule son avis
         if(post.usersLiked.includes(currentUserId)){ // si l'avis précédent était positif
-          Post.updateOne({ _id: postId }, {
+          models.Post.updateOne({ _id: postId }, {
             $inc: { likes: -1 }, // la valeur de likes est disminuée d'1
             $pull: { usersLiked: currentUserId }, // et on efface son userId de la liste de usersLiked
           })
@@ -88,7 +89,7 @@ exports.likePost = (req, res, next) => {
           .catch(error => res.status(400).json({ error }));   
         }
         if(post.usersDisliked.includes(currentUserId)){ // si l'avis précédent était négatif
-          Post.updateOne({ id: postId }, {
+          models.Post.updateOne({ id: postId }, {
             $inc: { dislikes: -1 }, /// la valeur de dislikes est disminuée d'1
             $pull: { usersDisliked: currentUserId }, // et on efface son userId de la liste de usersDisliked
           })

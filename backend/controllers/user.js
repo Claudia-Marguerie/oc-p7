@@ -56,8 +56,6 @@ exports.login = (req, res, next) => {
 };
 
 
-// il faut que ca renvoie un objet user tel que:
-// {firstname: 'firstname', lastname: 'lastname'};
 exports.userData = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
