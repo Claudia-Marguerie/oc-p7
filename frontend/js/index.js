@@ -24,7 +24,7 @@ function checkAuth(){
 // Affichage Nom et prénom de l'utilisateur
 function displayName(){
   if (userAuth){
-    axios.get('http://localhost:3000/api/users/userData').then((res) => {
+    axios.get('http://localhost:3000/api/users/' + userData).then((res) => {
       userData = res.data;
       document.querySelector('.firstname').textContent = userData.firstname;
       document.querySelector('.lastname').textContent = userData.lastname;

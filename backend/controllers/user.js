@@ -58,19 +58,17 @@ exports.login = (req, res, next) => {
 
 // il faut que ca renvoie un objet user tel que:
 // {firstname: 'firstname', lastname: 'lastname'};
-// exports.userData = (req, res, next) => {
-    
-//     .then(hash => {
-//         const user = new models.User({
-//             lastname: req.body.lastname,
-//             firstname: req.body.firstname,
-//         })
-//         user.save()
-//           .then(() => res.status(201).json({
-//               user
-//               )
-//           }))
-//           .catch(error => res.status(400).json({ error }));
-//     })
-//     .catch(error => res.status(500).json({error}));
-// };
+exports.userData = (req, res, next) => {
+    models.User.findById(req.user.id).then(
+      (user) => {
+        if (!user) {
+          return res.status(404).send(new Error('User not found!'));
+        }
+        res.status(200).json(user);
+      }
+    ).catch(
+      () => {
+        res.status(500).send(new Error('Database error!'));
+      }
+    )
+  };

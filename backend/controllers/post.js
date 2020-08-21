@@ -4,7 +4,7 @@ const fs = require('fs');
 exports.createPost = (req, res, next) => {
   const postObject = JSON.parse(req.body.post);
   delete postObject.id;
-  const post = new Post({
+  const post = new models.Post({
     ...postObject,
     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   });
@@ -40,14 +40,14 @@ exports.deletePost = (req, res, next) => {
 };
 
 exports.getAllPosts = (req, res, next) => {
-  Post.find()
+  models.Post.find()
   .then((posts) => {res.status(200).json(posts);})
   .catch((error) => {res.status(400).json({error: error});
     });
 };
 
 exports.getOnePost = (req, res, next) => {
-  Post.findOne({id: req.params.id})
+  models.Post.findOne({id: req.params.id})
     .then((post) => {res.status(200).json(post);
     })
     .catch((error) => {res.status(404).json({error: error});
@@ -59,7 +59,7 @@ exports.likePost = (req, res, next) => {
   const like = req.body.like;
   const currentUserId = req.body.userId;
   const postId = req.params.id;
-  Post.findOne({ id: postId })
+  models.Post.findOne({ id: postId })
     .then(post => {
       if(!(post.usersLiked.includes(currentUserId) || sauce.usersDisliked.includes(currentUserId))){ // si l'utilisateur n'a pas encore donné son avis: l'id de l'utilisateur n'existe pas dans la liste usersLiked ou usersDisliked de la sauce
         if(like == 1){ // si il aime la sauce
