@@ -17,6 +17,5 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   });
-  sequelize.sync({ force: true}); //Supprimer cette ligne pour éviter d'effacer les données
   return Post;
 }
