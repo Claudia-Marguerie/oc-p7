@@ -1,18 +1,37 @@
-const Post = require('../models');
+const Post = require('../models/post');
 const fs = require('fs');
 
+const models = require('../models');
 
 exports.createPost = (req, res, next) => {
-  const postObject = JSON.parse(req.body.post);
+  console.log('début backend');
+  const postObject = req.body;
   // delete postObject.id;
   const post = new models.Post({
-    ...postObject//,
+    title: req.body.title,
+    contentPost: req.body.contentPost,
+    attachment: req.body.attachment,
+    likes: 0
     // imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   });
+  console.log(post)
   post.save()
     .then(() => res.status(201).json({ message: 'Post enregistré !'}))
     .catch(error => res.status(400).json({ error }));
 };
+
+
+// exports.createPost = (req, res, next) => {
+//   const postObject = JSON.parse(req.body.post);
+//   delete postObject.id;
+//   const post = new models.Post({
+//     ...postObject//,
+//     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+//   });
+//   post.save()
+//     .then(() => res.status(201).json({ message: 'Post enregistré !'}))
+//     .catch(error => res.status(400).json({ error }));
+// };
 
 
 exports.modifyPost = (req, res, next) => {
