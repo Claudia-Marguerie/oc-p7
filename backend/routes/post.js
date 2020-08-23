@@ -10,7 +10,7 @@ router.get('/getAll', auth, postCtrl.getAllPosts);
 router.post('/new', auth, multer, postCtrl.createPost);
 router.get('/:id', auth, postCtrl.getOnePost);
 router.put('/:id', auth, multer, postCtrl.modifyPost);
-// router.delete('/:id', auth, postCtrl.deletePost);
+router.delete('/:id', auth, postCtrl.deletePost);
 router.post('/:id/like', auth, postCtrl.likePost);
 // router.delete('/:id/like', auth, postCtrl.deletelikePost);
 

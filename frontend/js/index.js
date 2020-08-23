@@ -50,7 +50,7 @@ function displayPosts() {
                 const listPost = document.querySelector('#container_posts');
                 const postListItem = document.createElement('div');
                 postListItem.innerHTML = // Afficher le post (tout le HTML) avec boutons de modif / effacage
-                    '<div class="post-item">' +
+                    '<div id="post_' + i + '" class="post-item">' +
                     '<div class="all-items">' +
                     '<div class="top-post">' +
                     '<div class="user-data">' +
@@ -78,7 +78,7 @@ function displayPosts() {
                     '</div>' +
                     '<div class="btn-user">' +
                     '<button id="modifybtn_' + postList[i].id +'" class="btn-user--update">Modifier</button>' +
-                    '<button class="btn-user--delete">Effacer</button>' +
+                    '<button id="deletebtn_' + postList[i].id +'" class="btn-user--delete">Effacer</button>' +
                     '</div>' +
                     '</div>' +
                     '</div>' +
@@ -87,11 +87,14 @@ function displayPosts() {
                 document.querySelector('#modifybtn_' + postList[i].id).addEventListener('click', () => {
                     goToModify(postList[i].id)
                 })
+                document.querySelector('#deletebtn_' + postList[i].id).addEventListener('click', () => {
+                    goToDelete(postList[i].id)
+                })
             } else { // sinon
                 const listPost = document.querySelector('#container_posts');
                 const postListItem = document.createElement('div');
                 postListItem.innerHTML = // Afficher le post sans boutons de modif / effacage
-                    '<div class="post-item">' +
+                    '<div id="post_' + i + '" class="post-item">' +
                     '<div class="all-items">' +
                     '<div class="top-post">' +
                     '<div class="user-data">' +
@@ -133,6 +136,32 @@ function goToModify(postIdToModify){
 }
 
 
+function goToDelete(postIdToDelete){
+    axios.delete('http://localhost:3000/api/posts/'+ postIdToDelete, headers).then((res) => {
+        console.log('après PUT')
+        const data = res.data
+        console.log(data)
+        // localStorage.setItem("postData", JSON.stringify(data.postData)) // on converti la liste en string pour qu'elle soit lisible par javascript. 
+        // localStorage.setItem('token', data.token);
+        console.log('post effacé')
+        //window.location.href = 'index.html'; // Redirection vers la page d'accueil
+
+        //effacer le post du DOM
+        const numberOfDiv = document.getElementById("container_posts").childElementCount; // indique le numéro de la division à effacer
+
+        for(let i = 1; i <= numberOfDiv; i++){  // On demande d'effacer la div dans le DOM
+            const postToDelete = document.querySelector('#container_posts div'); 
+            postToDelete.parentNode.removeChild(postToDelete); // on supprime la div du produit à effacer
+            
+        }
+        displayPosts();
+
+        }).catch(() => {
+            console.log('erreur catch')
+            // window.location.href = 'login.html'
+        })
+}
+
 function updateLikes() {
     axios.get('http://localhost:3000/api/posts').then((data) => {
         console.log(res.data)
@@ -165,3 +194,4 @@ function topFunction() {
 
 
 displayPosts();
+
