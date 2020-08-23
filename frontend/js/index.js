@@ -73,7 +73,7 @@ function displayPosts() {
                     '</div>' +
                     '<div class="bottom-post">' +
                     '<div class="like">' +
-                    '<a href=""><img src="images/like.png" alt=""></a>' +
+                    '<img id="like_' + postList[i].id + '" src="images/like.png" alt="">' +
                     '<p id="like-post">' + postList[i].likes + '</p>' +
                     '</div>' +
                     '<div class="btn-user">' +
@@ -117,7 +117,7 @@ function displayPosts() {
                     '</div>' +
                     '<div class="bottom-post">' +
                     '<div class="like">' +
-                    '<a href=""><img src="images/like.png" alt=""></a>' +
+                    '<img id="like_' + postList[i].id + '" src="images/like.png" alt="">' +
                     '<p id="like-post">' + postList[i].likes + '</p>' +
                     '</div>' +
                     '</div>' +
@@ -125,6 +125,10 @@ function displayPosts() {
                     '</div>'
                 listPost.appendChild(postListItem);
             }
+            //addEventListener for Like
+            document.querySelector('#like_' + postList[i].id).addEventListener('click', () => {
+            userLike(postList[i].id)
+            })
         }
     })
 }
@@ -162,12 +166,22 @@ function goToDelete(postIdToDelete){
         })
 }
 
-function updateLikes() {
-    axios.get('http://localhost:3000/api/posts').then((data) => {
+
+function userLike(postId) {
+    console.log('changement du like pour le post no.'+postId)
+    console.log(userId)
+    axios.post('http://localhost:3000/api/posts/'+postId+'/like', '!!!!!!!!!!----------------ceci est le UserId--:'+userId, headers).then((res) => {
         console.log(res.data)
-        document.querySelector('.#like-post').textContent = post.likes;
     })
 }
+
+
+// function displayLikes() {
+//     axios.get('http://localhost:3000/api/posts').then((data) => {
+//         console.log(res.data)
+//         document.querySelector('#like-post').textContent = post.likes;
+//     })
+// }
 
 
 // Affichage du bouton TOP
