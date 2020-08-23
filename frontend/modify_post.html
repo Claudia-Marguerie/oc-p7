@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./css/style.css"/>
+        <link rel="shortcut icon" type="image/x-icon" href="./images/favicon_groupomania.ico">
+        <title>Modifier le post</title>
+    </head>
+    <body>
+        <header>
+            <img src="images/icon-left-font.png" alt="Logo Groupomania">
+            <div class="nav-header">
+                <div class="user-name">
+                    <img src="images/user.png" alt="Picto user">
+                    <p class="firstname"><!-- Ici s'affiche le prénom --></p><p class="lastname"> <!-- Ici s'affiche le nom --></p>
+                </div>
+                <div class="delete-logout">
+                    <a class="delete-user" href="signup.html">Supprimer mon compte</a>
+                    <a class="logout-user" href="login.html">Déconnexion</a>
+                </div>
+            </div>
+        </header>
+        <div class="container-form2">
+            <nav class="nav-text">
+                <a href="index.html"><h3>Posts /</h3></a>
+                <h3>Modifier le post</h3>
+            </nav>
+            <form id="form">
+                <div class="form-item2">
+                    <label for="title">Titre :</label>
+                    <input id="title" type="text" placeholder="Titre" name="title">
+                </div>
+                <div class="form-item2">
+                    <label for="contentPost">Message :</label>
+                    <textarea id="contentPost" placeholder="Ecrivez votre texte à partager" name="message"></textarea>
+                </div>
+                <div class="btn-multimedia">
+                    <button id="attachment" type="file" class="btn-multimedia--photo"><img src="images/camera.png" alt="picto camera"> / <img src="images/video.png" alt="picto video"> Modifier multimédia</button>
+                </div>
+                <button class="btn-send" type="submit">Valider les modifications</button>
+            </form>
+        </div>
+        <script type="application/javascript" src="node_modules/axios/dist/axios.min.js"></script>
+        <script type="application/javascript" src="js/modify_post.js"></script>
+    </body>
+</html>

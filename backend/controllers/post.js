@@ -30,12 +30,13 @@ exports.createPost = (req, res, next) => {
 
 
 exports.modifyPost = (req, res, next) => {
-  const postObject = req.file ?
-    {
-      ...JSON.parse(req.body.post),
-      imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    } : { ...req.body };
-  Post.updateOne({ id: req.params.id }, { ...postObject, id: req.params.id })
+  console.log(req.body.post)
+  // const postObject = req.file ?
+  //   {
+  //     ...JSON.parse(req.body.post),
+  //     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+  //   } : { ...req.body };
+  // models.Post.updateOne({ id: req.params.id }, { ...postObject, id: req.params.id })
     .then(() => res.status(200).json({ message: 'Post modifié !'}))
     .catch(error => res.status(400).json({ error }));
 };
@@ -57,39 +58,42 @@ exports.deletePost = (req, res, next) => {
 
 
 exports.getAllPosts = (req, res, next) => {
-  console.log('get all posts backend')
+  // console.log('get all posts backend');
   // const postList = 
   models.Post.findAll()
     .then((posts) => {
-      console.log('-----------------------------valeur de posts apres findAll---------------------------')
-      console.log(posts);
-      console.log('-----------------------------Avant boucle for---------------------------')
+      // console.log('-----------------------------valeur de posts apres findAll---------------------------');
+      // console.log(posts);
+      // console.log('-----------------------------Avant boucle for---------------------------');
         for (let i = 0; i < posts.length; i++){
         const userId = posts[i].userId;
         models.User.findByPk(userId).then(
           (user) => {
+            // console.log('-----------valeur du user avec le userId=' + userId + ' pour le post n° ' + i);
+            // console.log(user);
+
             if (userId == !null) {
               const firstname = user.firstname;
               const lastname = user.lastname;
-              console.log(firstname);
-              console.log(lastname);
+              // console.log(firstname);
+              // console.log(lastname);
               posts[i].dataValues.authorFirstName = firstname;
               posts[i].dataValues.authorLastName = lastname;
               // return res.status(404).send(new Error('User not found!'));
             } else {
               posts[i].dataValues.authorFirstName = 'Mr/Mme';
               posts[i].dataValues.authorLastName = 'Anonyme';
-              console.log('anonyme');
+              // console.log('anonyme');
             }
-            
-            console.log(posts[i]);
+            // console.log('-----------valeur du post ' + i + ' apres ajout du nom / prenom');
+            // console.log(posts[i]);
             if (i == posts.length-1)
             {
                 
-              console.log('-----------------------------fin de la boucle for---------------------------')
-              console.log(posts)
-              console.log('-----------------------------apres posts, juste avant renvoi de posts vers le frontend----------------------------')
-              res.status(200).json(posts)
+              // console.log('-----------------------------fin de la boucle for---------------------------');
+              // console.log(posts);
+              // console.log('-----------------------------apres posts, juste avant renvoi de posts vers le frontend----------------------------');
+              res.status(200).json(posts);
             }
           } 
         ).catch(
@@ -117,8 +121,13 @@ exports.getAllPosts = (req, res, next) => {
 // };
 
 exports.getOnePost = (req, res, next) => {
-  models.Post.findOne({id: req.params.id})
-    .then((post) => {return res.status(200).json(post);
+  const postId = parseInt(req.params.id)
+  // console.log('dans get ONE POST')
+  // console.log(postId)
+  models.Post.findByPk(postId)
+    .then((post) => {
+      // console.log(post)
+      return res.status(200).json(post);
     })
     .catch((error) => {return res.status(404).json({error: error});
     });

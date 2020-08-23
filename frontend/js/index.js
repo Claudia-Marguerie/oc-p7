@@ -33,9 +33,7 @@ function displayPosts() {
         const postList = res.data;
         console.log(postList)
         for (let i = 0; i < postList.length; i++) { //Pour chaque post
-            // const authorFirstName = postList[i].User.firstname;
-            // console.log(authorFirstName)
-            if (postList[i].author === userId) { //Si le créateur du post es le même que l'userID
+            if (postList[i].userId == userId) { //Si le créateur du post es le même que l'userID
                 const listPost = document.querySelector('#container_posts');
                 const postListItem = document.createElement('div');
                 postListItem.innerHTML = // Afficher le post (tout le HTML) avec boutons de modif / effacage
@@ -66,13 +64,16 @@ function displayPosts() {
                     '<p id="like-post">' + postList[i].likes + '</p>' +
                     '</div>' +
                     '<div class="btn-user">' +
-                    '<button class="btn-user--update">Modifier</button>' +
+                    '<button id="modifybtn_' + postList[i].id +'" class="btn-user--update">Modifier</button>' +
                     '<button class="btn-user--delete">Effacer</button>' +
                     '</div>' +
                     '</div>' +
                     '</div>' +
                     '</div>'
                 listPost.appendChild(postListItem);
+                document.querySelector('#modifybtn_' + postList[i].id).addEventListener('click', () => {
+                    goToModify(postList[i].id)
+                })
             } else { // sinon
                 const listPost = document.querySelector('#container_posts');
                 const postListItem = document.createElement('div');
@@ -110,6 +111,12 @@ function displayPosts() {
             }
         }
     })
+}
+
+
+function goToModify(postIdToModify){
+    localStorage.setItem('postIdToModify', postIdToModify); // enregistre l'ID du post a modifier (postIdToModify) dans le local storage
+    window.location.href = 'modify_post.html';// renvoie vers la page de modif du post
 }
 
 
