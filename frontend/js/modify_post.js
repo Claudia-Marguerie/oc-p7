@@ -25,7 +25,10 @@ axios.get('http://localhost:3000/api/posts/' + postId, headers).then((res) => {
     // displayName(res.data)
     console.log('reponse route post')
     console.log(res)
-    
+    document.querySelector('#title').value = res.data.title;
+    console.log(res.data.title)
+    document.querySelector('#contentPost').textContent = res.data.contentPost;
+
 }).catch(() => {
     console.log('erreur catch')
     // window.location.href = 'login.html'
