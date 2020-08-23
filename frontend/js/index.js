@@ -20,6 +20,14 @@ const token = localStorage.getItem('token');
 const postList = [];
 console.log(userId);
 
+// Crée le bouton 'deconnexion'
+document.querySelector('#logout-button').addEventListener('click', () => {
+    localStorage.clear('userId');
+    localStorage.clear('token');
+    // envoyer infos au serveur pour informer de la deconnexion de l'utilisateur?
+    window.location.href = 'login.html';
+})
+
 // Affichage Nom et prénom de l'utilisateur
 function displayName(userData) {
     document.querySelector('.firstname').textContent = userData.firstname;

@@ -39,6 +39,7 @@ axios.get('http://localhost:3000/api/posts/' + postId, headers).then((res) => {
 // reamplir le formulaire avec les donnees originales du post (venant du serveur)
 
 
+
 //Envoie data de chaque post
 function SendModifiedPost(event) {
     event.preventDefault();
