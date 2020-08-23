@@ -70,12 +70,12 @@ exports.getAllPosts = (req, res, next) => {
       // console.log('-----------------------------Avant boucle for---------------------------');
         for (let i = 0; i < posts.length; i++){
         const userId = posts[i].userId;
-        models.User.findByPk(userId).then(
+        models.User.findOne({ where: { id: userId } }).then(
           (user) => {
             // console.log('-----------valeur du user avec le userId=' + userId + ' pour le post n° ' + i);
             // console.log(user);
 
-            if (userId == !null) {
+            if (userId != null) {
               const firstname = user.firstname;
               const lastname = user.lastname;
               // console.log(firstname);
@@ -84,7 +84,7 @@ exports.getAllPosts = (req, res, next) => {
               posts[i].dataValues.authorLastName = lastname;
               // return res.status(404).send(new Error('User not found!'));
             } else {
-              posts[i].dataValues.authorFirstName = 'Mr/Mme';
+              posts[i].dataValues.authorFirstName = 'M./Mme';
               posts[i].dataValues.authorLastName = 'Anonyme';
               // console.log('anonyme');
             }
