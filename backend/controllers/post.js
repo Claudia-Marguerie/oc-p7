@@ -30,13 +30,16 @@ exports.createPost = (req, res, next) => {
 
 
 exports.modifyPost = (req, res, next) => {
-  console.log(req.body.post)
-  // const postObject = req.file ?
-  //   {
-  //     ...JSON.parse(req.body.post),
-  //     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-  //   } : { ...req.body };
-  // models.Post.updateOne({ id: req.params.id }, { ...postObject, id: req.params.id })
+  const postId = req.params.id;
+  console.log('postId = '+ postId);
+  console.log('req.body.post = '+ req.body.post);
+  const postObject = req.file ?
+    {
+      ...JSON.parse(req.body.post),
+      imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    } : { ...req.body };
+  console.log(postObject);
+  models.Post.update({ title: postObject.title, contentPost: postObject.contentPost }, {where : {id: postId}})
     .then(() => res.status(200).json({ message: 'Post modifié !'}))
     .catch(error => res.status(400).json({ error }));
 };

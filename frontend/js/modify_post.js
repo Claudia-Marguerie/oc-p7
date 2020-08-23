@@ -31,7 +31,7 @@ axios.get('http://localhost:3000/api/posts/' + postId, headers).then((res) => {
 
 }).catch(() => {
     console.log('erreur catch')
-    // window.location.href = 'login.html'
+    window.location.href = 'login.html'
 })
 
 // recupere le contenu du post a modifier (avec l'ID postId) avec la route get 'One'
@@ -46,12 +46,13 @@ function SendModifiedPost(event) {
     postData.title = event.target.title.value;
     postData.contentPost = event.target.contentPost.value;
     postData.attachment = event.target.attachment.value;
-    console.log(postData)
+    // console.log(postData)
     // const postString = JSON.stringify(postData);
     // console.log(postString)
-    console.log(headers)
-
-    axios.post('http://localhost:3000/api/posts/new', postData, headers).then((res) => {
+    // console.log(headers)
+    console.log('avant le axios PUT')
+    axios.put('http://localhost:3000/api/posts/'+ postId, postData, headers).then((res) => {
+        console.log('après PUT')
         const data = res.data
         console.log(data)
         // localStorage.setItem("postData", JSON.stringify(data.postData)) // on converti la liste en string pour qu'elle soit lisible par javascript. 
