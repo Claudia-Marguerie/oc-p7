@@ -1,17 +1,25 @@
 const Post = require('../models/post');
 const fs = require('fs');
+const jwt = require('jsonwebtoken');
 
 const models = require('../models');
 
+
 exports.createPost = (req, res, next) => {
   console.log('début backend');
-  const postObject = req.body;
+  const token = req.headers.authorization.split(' ')[1];
+  const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+  const userId = decodedToken.userId;
+  console.log(userId)
+  // models.User.findById(userId)
+  // const postObject = req.body;
   // delete postObject.id;
   const post = new models.Post({
     title: req.body.title,
     contentPost: req.body.contentPost,
     attachment: req.body.attachment,
-    likes: 0
+    likes: 0,
+    userId: userId
     // imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   });
   console.log(post)
@@ -19,19 +27,6 @@ exports.createPost = (req, res, next) => {
     .then(() => res.status(201).json({ message: 'Post enregistré !'}))
     .catch(error => res.status(400).json({ error }));
 };
-
-
-// exports.createPost = (req, res, next) => {
-//   const postObject = JSON.parse(req.body.post);
-//   delete postObject.id;
-//   const post = new models.Post({
-//     ...postObject//,
-//     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-//   });
-//   post.save()
-//     .then(() => res.status(201).json({ message: 'Post enregistré !'}))
-//     .catch(error => res.status(400).json({ error }));
-// };
 
 
 exports.modifyPost = (req, res, next) => {
@@ -59,18 +54,73 @@ exports.deletePost = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 };
 
+
+
 exports.getAllPosts = (req, res, next) => {
-  models.Post.find()
-  .then((posts) => {res.status(200).json(posts);})
-  .catch((error) => {res.status(400).json({error: error});
+  console.log('get all posts backend')
+  // const postList = 
+  models.Post.findAll()
+    .then((posts) => {
+      console.log('-----------------------------valeur de posts apres findAll---------------------------')
+      console.log(posts);
+      console.log('-----------------------------Avant boucle for---------------------------')
+        for (let i = 0; i < posts.length; i++){
+        const userId = posts[i].userId;
+        models.User.findByPk(userId).then(
+          (user) => {
+            if (userId == !null) {
+              const firstname = user.firstname;
+              const lastname = user.lastname;
+              console.log(firstname);
+              console.log(lastname);
+              posts[i].dataValues.authorFirstName = firstname;
+              posts[i].dataValues.authorLastName = lastname;
+              // return res.status(404).send(new Error('User not found!'));
+            } else {
+              posts[i].dataValues.authorFirstName = 'Mr/Mme';
+              posts[i].dataValues.authorLastName = 'Anonyme';
+              console.log('anonyme');
+            }
+            
+            console.log(posts[i]);
+            if (i == posts.length-1)
+            {
+                
+              console.log('-----------------------------fin de la boucle for---------------------------')
+              console.log(posts)
+              console.log('-----------------------------apres posts, juste avant renvoi de posts vers le frontend----------------------------')
+              res.status(200).json(posts)
+            }
+          } 
+        ).catch(
+          () => {
+            res.status(500).send(new Error('Database error!'));
+          })
+      }
+      
+    })
+   
+    .catch((error) => {
+      console.log('erreur catch final')
+      res.status(400).json({error: error});
     });
+    
 };
+
+// ORIGINAL
+// exports.getAllPosts = (req, res, next) => {
+//   console.log('get all posts backend')
+//   models.Post.findAll()
+//   .then((posts) => {res.status(200).json(posts);})
+//   .catch((error) => {res.status(400).json({error: error});
+//     });
+// };
 
 exports.getOnePost = (req, res, next) => {
   models.Post.findOne({id: req.params.id})
-    .then((post) => {res.status(200).json(post);
+    .then((post) => {return res.status(200).json(post);
     })
-    .catch((error) => {res.status(404).json({error: error});
+    .catch((error) => {return res.status(404).json({error: error});
     });
 };
 

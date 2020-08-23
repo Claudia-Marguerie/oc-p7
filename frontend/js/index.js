@@ -28,10 +28,13 @@ function displayName(userData) {
 
 
 function displayPosts() {
-    axios.get('http://localhost:3000/api/posts').then((data) => {
-        console.log(res.data)
-        postList = res.data;
+     axios.get('http://localhost:3000/api/posts/getAll', headers).then((res) => {
+        console.log(res)
+        const postList = res.data;
+        console.log(postList)
         for (let i = 0; i < postList.length; i++) { //Pour chaque post
+            // const authorFirstName = postList[i].User.firstname;
+            // console.log(authorFirstName)
             if (postList[i].author === userId) { //Si le créateur du post es le même que l'userID
                 const listPost = document.querySelector('#container_posts');
                 const postListItem = document.createElement('div');
@@ -139,3 +142,6 @@ function topFunction() {
     document.body.scrollTop = 0; // For Safari
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
+
+
+displayPosts();
