@@ -13,6 +13,23 @@ axios.get('http://localhost:3000/api/users/me', headers).then((res) => {
     window.location.href = 'login.html'
 })
 
+
+const user = JSON.parse(localStorage.getItem('user'));
+const userId = user.id;
+const token = localStorage.getItem('token');
+// const userAuth = false;
+// const postList = [];
+
+
+// Crée le bouton 'deconnexion'
+document.querySelector('#logout-button').addEventListener('click', () => {
+    localStorage.clear('userId');
+    localStorage.clear('token');
+    // envoyer infos au serveur pour informer de la deconnexion de l'utilisateur?
+    window.location.href = 'login.html';
+})
+
+
 function displayName(userData) {
     document.querySelector('.firstname').textContent = userData.firstname;
     document.querySelector('.lastname').textContent = userData.lastname;

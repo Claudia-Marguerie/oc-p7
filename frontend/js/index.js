@@ -1,10 +1,11 @@
-//Vérifier si l'utilisateur est connecté, sinon renvoyer l'utilisateur vers la page de login
+// Vérification de l'authentification de l'utilisateur
 const headers = {
     headers: {
         Authorization: 'Bearer ' + localStorage.getItem('token')
     }
 }
 
+// Affichage Nom et prénom de l'utilisateur
 axios.get('http://localhost:3000/api/users/me', headers).then((res) => {
     displayName(res.data)
 
@@ -13,12 +14,12 @@ axios.get('http://localhost:3000/api/users/me', headers).then((res) => {
 })
 
 
-// Vérification de l'authentification de l'utilisateur
 const user = JSON.parse(localStorage.getItem('user'));
 const userId = user.id;
 const token = localStorage.getItem('token');
 // const userAuth = false;
 const postList = [];
+
 
 // Crée le bouton 'deconnexion'
 document.querySelector('#logout-button').addEventListener('click', () => {
@@ -28,6 +29,7 @@ document.querySelector('#logout-button').addEventListener('click', () => {
     window.location.href = 'login.html';
 })
 
+
 // Affichage Nom et prénom de l'utilisateur
 function displayName(userData) {
     document.querySelector('.firstname').textContent = userData.firstname;
@@ -35,6 +37,7 @@ function displayName(userData) {
 }
 
 
+//Affichage des posts
 function displayPosts() {
      axios.get('http://localhost:3000/api/posts/getAll', headers).then((res) => {
         // console.log(res)
@@ -58,8 +61,8 @@ function displayPosts() {
                     '<p>' + postList[i].authorFirstName + '</p>' + '<p>' + postList[i].authorLastName + '</p>' +
                     '</div>' +
                     '<div class="date-time-data">' +
-                    '<p class="date">' + postList[i].creationDateTime + '</p>' + //voir comment afficher la date
-                    '<p class="time">12:00</p>' + // voir comment afficher l'heure
+                    '<p class="date">' + formatDate(postList[i].datePost) + '</p>' + //voir comment afficher la date
+                    '<p class="time">' + formatTime(postList[i].datePost) + '</p>' + // voir comment afficher l'heure
                     '</div>' +
                     '</div>' +
                     '<div class="post">' +
@@ -102,8 +105,8 @@ function displayPosts() {
                     '<p>' + postList[i].authorFirstName + '</p>' + '<p>' + postList[i].authorLastName + '</p>' +
                     '</div>' +
                     '<div class="date-time-data">' +
-                    '<p class="date">' + postList[i].creationDateTime + '</p>' + //voir comment afficher la date
-                    '<p class="time">12:00</p>' + // voir comment afficher l'heure
+                    '<p class="date">' + formatDate(postList[i].datePost) + '</p>' + //voir comment afficher la date
+                    '<p class="time">' + formatTime(postList[i].datePost) + '</p>' + // voir comment afficher l'heure
                     '</div>' +
                     '</div>' +
                     '<div class="post">' +
@@ -131,6 +134,20 @@ function displayPosts() {
             })
         }
     })
+}
+
+
+//Retreieve and display post date
+function formatDate(unformattedDate) {
+    var d = new Date(unformattedDate);
+    return d.toLocaleDateString();
+}
+
+
+//Retreieve and display post time
+function formatTime(unformattedDate) {
+    var d = new Date(unformattedDate);
+    return d.toLocaleTimeString();
 }
 
 

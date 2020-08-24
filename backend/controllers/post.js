@@ -78,10 +78,12 @@ exports.getAllPosts = (req, res, next) => {
             if (userId != null) {
               const firstname = user.firstname;
               const lastname = user.lastname;
+              const date = user.updatedAt;
               // console.log(firstname);
               // console.log(lastname);
               posts[i].dataValues.authorFirstName = firstname;
               posts[i].dataValues.authorLastName = lastname;
+              posts[i].dataValues.datePost = date;
               // return res.status(404).send(new Error('User not found!'));
             } else {
               posts[i].dataValues.authorFirstName = 'M./Mme';
