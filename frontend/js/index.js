@@ -46,6 +46,7 @@ function displayPosts() {
 
         for (let i = 0; i < postList.length; i++) { //Pour chaque post
             // console.log('postList[i] = ' + postList[i])
+            // console.log(postList[i])
             // console.log('postList[i].userId = ' + postList[i].userId)
             // console.log('userId = ' + userId)
             
@@ -61,8 +62,8 @@ function displayPosts() {
                     '<p>' + postList[i].authorFirstName + '</p>' + '<p>' + postList[i].authorLastName + '</p>' +
                     '</div>' +
                     '<div class="date-time-data">' +
-                    '<p class="date">' + formatDate(postList[i].datePost) + '</p>' + //voir comment afficher la date
-                    '<p class="time">' + formatTime(postList[i].datePost) + '</p>' + // voir comment afficher l'heure
+                    '<p class="date">' + formatDate(postList[i].updatedAt) + '</p>' + //voir comment afficher la date
+                    '<p class="time">' + formatTime(postList[i].updatedAt) + '</p>' + // voir comment afficher l'heure
                     '</div>' +
                     '</div>' +
                     '<div class="post">' +
@@ -87,6 +88,11 @@ function displayPosts() {
                     '</div>' +
                     '</div>'
                 listPost.appendChild(postListItem);
+
+                // document.querySelector('.like img').addEventListener('click', () => {
+                //     changeImageLike()
+                // })
+
                 document.querySelector('#modifybtn_' + postList[i].id).addEventListener('click', () => {
                     goToModify(postList[i].id)
                 })
@@ -105,8 +111,8 @@ function displayPosts() {
                     '<p>' + postList[i].authorFirstName + '</p>' + '<p>' + postList[i].authorLastName + '</p>' +
                     '</div>' +
                     '<div class="date-time-data">' +
-                    '<p class="date">' + formatDate(postList[i].datePost) + '</p>' + //voir comment afficher la date
-                    '<p class="time">' + formatTime(postList[i].datePost) + '</p>' + // voir comment afficher l'heure
+                    '<p class="date">' + formatDate(postList[i].updatedAt) + '</p>' + //voir comment afficher la date
+                    '<p class="time">' + formatTime(postList[i].updatedAt) + '</p>' + // voir comment afficher l'heure
                     '</div>' +
                     '</div>' +
                     '<div class="post">' +
@@ -184,6 +190,17 @@ function goToDelete(postIdToDelete){
 }
 
 
+// function changeImageLike(){
+//   const blueLike = document.querySelector(".like img").item(0);
+//   const greenLike = blueLike.getAttribute("src");
+//   if(greenLike == "images/like-green.png")
+//     greenLike = "images/like.png";
+//   else
+//     greenLike = "images/like.png";
+//   blueLike.setAttribute("src", greenLike);	
+// }
+
+
 function userLike(postId) {
     console.log('changement du like pour le post no.'+postId)
     console.log(userId)
@@ -193,12 +210,14 @@ function userLike(postId) {
 }
 
 
-// function displayLikes() {
-//     axios.get('http://localhost:3000/api/posts').then((data) => {
-//         console.log(res.data)
-//         document.querySelector('#like-post').textContent = post.likes;
-//     })
-// }
+function displayLikes() {
+    document.querySelector('#like-post').textContent = post.likes;
+    axios.get('http://localhost:3000/api/posts').then((data) => {
+        console.log(res.data)
+
+        document.querySelector('#like-post').textContent = post.likes;
+    })
+}
 
 
 // Affichage du bouton TOP
