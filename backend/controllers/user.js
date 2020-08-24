@@ -74,3 +74,26 @@ exports.userData = (req, res, next) => {
       }
     )
   };
+
+
+  exports.deleteUser = (req, res, next) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+    const userId = decodedToken.userId;
+    models.Post.destroy({ where: {userId: userId}}).then(
+      () => {
+      models.User.destroy({ where: {id: userId}}).then(
+        (user) => {
+          // models.Post.destroy({ where: {id: userId}})
+          if (!user) {
+            return res.status(404).send(new Error('User not found!'));
+          }
+          res.status(200).json(user);
+        }) // fin de user.destroy then
+      }) // fin de post.destroy then
+    .catch(
+      () => {
+        res.status(500).send(new Error('Database error!'));
+      }
+    )
+  };

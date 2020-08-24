@@ -63,8 +63,10 @@ exports.deletePost = (req, res, next) => {
 exports.getAllPosts = (req, res, next) => {
   // console.log('get all posts backend');
   // const postList = 
-  models.Post.findAll()
+  // models.Post.findAll({order: ['updatedAt', 'DESC']})
+  models.Post.findAll({order: [['updatedAt', 'DESC']]})
     .then((posts) => {
+      
       // console.log('-----------------------------valeur de posts apres findAll---------------------------');
       // console.log(posts);
       // console.log('-----------------------------Avant boucle for---------------------------');
@@ -99,19 +101,19 @@ exports.getAllPosts = (req, res, next) => {
               res.status(200).json(posts);
             }
           } 
-        ).catch(
-          () => {
+          
+          ).catch(
+            () => {
             res.status(500).send(new Error('Database error!'));
           })
-      }
-      
+        }
     })
    
     .catch((error) => {
       console.log('erreur catch final')
       res.status(400).json({error: error});
     });
-    
+
 };
 
 // ORIGINAL
@@ -185,7 +187,7 @@ exports.likePost = (req, res, next) => {
     // .catch(error => res.status(400).json({ error }));
 };
 
-
+//ORIGINAL
 // exports.likePost = (req, res, next) => {
 //   const like = req.body.like;
 //   const currentUserId = req.body.userId;

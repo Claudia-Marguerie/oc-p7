@@ -25,8 +25,17 @@ const postList = [];
 document.querySelector('#logout-button').addEventListener('click', () => {
     localStorage.clear('userId');
     localStorage.clear('token');
-    // envoyer infos au serveur pour informer de la deconnexion de l'utilisateur?
     window.location.href = 'login.html';
+})
+
+
+//Crée le bouton "suprimmer mon compte"
+document.querySelector('#delete-user-button').addEventListener('click', () => {
+    axios.delete('http://localhost:3000/api/users/me', headers).then((res) => {
+        localStorage.clear('userId');
+        localStorage.clear('token');
+        window.location.href = 'signup.html';
+    })
 })
 
 
@@ -89,16 +98,13 @@ function displayPosts() {
                     '</div>'
                 listPost.appendChild(postListItem);
 
-                // document.querySelector('.like img').addEventListener('click', () => {
-                //     changeImageLike()
-                // })
-
                 document.querySelector('#modifybtn_' + postList[i].id).addEventListener('click', () => {
                     goToModify(postList[i].id)
                 })
                 document.querySelector('#deletebtn_' + postList[i].id).addEventListener('click', () => {
                     goToDelete(postList[i].id)
                 })
+
             } else { // sinon
                 const listPost = document.querySelector('#container_posts');
                 const postListItem = document.createElement('div');
@@ -134,9 +140,10 @@ function displayPosts() {
                     '</div>'
                 listPost.appendChild(postListItem);
             }
-            //addEventListener for Like
+            //addEventListener pour le changement de couleur du like
             document.querySelector('#like_' + postList[i].id).addEventListener('click', () => {
-            userLike(postList[i].id)
+                changeImageLike('like_' + postList[i].id)
+                // userLike(postList[i].id)
             })
         }
     })
@@ -189,25 +196,31 @@ function goToDelete(postIdToDelete){
         })
 }
 
-
-// function changeImageLike(){
-//   const blueLike = document.querySelector(".like img").item(0);
-//   const greenLike = blueLike.getAttribute("src");
-//   if(greenLike == "images/like-green.png")
-//     greenLike = "images/like.png";
-//   else
-//     greenLike = "images/like.png";
-//   blueLike.setAttribute("src", greenLike);	
-// }
-
-
-function userLike(postId) {
-    console.log('changement du like pour le post no.'+postId)
-    console.log(userId)
-    axios.post('http://localhost:3000/api/posts/'+postId+'/like', '!!!!!!!!!!----------------ceci est le UserId--:'+userId, headers).then((res) => {
-        console.log(res.data)
-    })
+//Changement de couleur au like
+function changeImageLike(likeBtnId){
+    console.log(likeBtnId);
+    var imageDiv = document.getElementById(likeBtnId);
+    console.log(imageDiv);
+    const imageNameCurrent = imageDiv.getAttribute("src");
+  if (imageNameCurrent == "images/like-green.png"){
+    imageNameNew = "images/like.png";  
+    console.log('yes');
+  } else {
+   imageNameNew = "images/like-green.png";
+   console.log('yes');
+   }
+   console.log(imageNameNew);
+   imageDiv.setAttribute("src", imageNameNew);	   
 }
+
+
+// function userLike(postId) {
+//     console.log('changement du like pour le post no.'+postId)
+//     console.log(userId)
+//     axios.post('http://localhost:3000/api/posts/'+postId+'/like', '!!!!!!!!!!----------------ceci est le UserId--:'+userId, headers).then((res) => {
+//         console.log(res.data)
+//     })
+// }
 
 
 function displayLikes() {
