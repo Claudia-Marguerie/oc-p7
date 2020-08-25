@@ -77,7 +77,7 @@ function displayPosts() {
                     '</div>' +
                     '<div class="post">' +
                     '<div class="post-image-texte">' +
-                    '<img src="' + postList[i].attachment + '" alt="">' +
+                    // '<img src="' + postList[i].attachment + '" alt="">' +
                     '<div class="only-text">' +
                     '<h2>' + postList[i].title + '</h2>' +
                     '<p>' + postList[i].contentPost + '</p>' +
@@ -123,7 +123,7 @@ function displayPosts() {
                     '</div>' +
                     '<div class="post">' +
                     '<div class="post-image-texte">' +
-                    '<img src="' + postList[i].attachment + '" alt="">' +
+                    // '<img src="' + postList[i].attachment + '" alt="">' +
                     '<div class="only-text">' +
                     '<h2>' + postList[i].title + '</h2>' +
                     '<p>' + postList[i].contentPost + '</p>' +
@@ -143,7 +143,7 @@ function displayPosts() {
             //addEventListener pour le changement de couleur du like
             document.querySelector('#like_' + postList[i].id).addEventListener('click', () => {
                 changeImageLike('like_' + postList[i].id)
-                // userLike(postList[i].id)
+                userLike(postList[i].id)
             })
         }
     })
@@ -196,6 +196,7 @@ function goToDelete(postIdToDelete){
         })
 }
 
+
 //Changement de couleur au like
 function changeImageLike(likeBtnId){
     console.log(likeBtnId);
@@ -214,13 +215,13 @@ function changeImageLike(likeBtnId){
 }
 
 
-// function userLike(postId) {
-//     console.log('changement du like pour le post no.'+postId)
-//     console.log(userId)
-//     axios.post('http://localhost:3000/api/posts/'+postId+'/like', '!!!!!!!!!!----------------ceci est le UserId--:'+userId, headers).then((res) => {
-//         console.log(res.data)
-//     })
-// }
+function userLike(postId) {
+    console.log('changement du like pour le post no.'+postId)
+    console.log(userId)
+    axios.post('http://localhost:3000/api/posts/'+postId+'/like', userId, headers).then((res) => {
+        console.log(res.data)
+    })
+}
 
 
 function displayLikes() {
@@ -257,4 +258,3 @@ function topFunction() {
 
 
 displayPosts();
-

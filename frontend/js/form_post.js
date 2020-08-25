@@ -1,7 +1,7 @@
 //Vérifier si l'utilisateur est connecté, sinon renvoyer l'utilisateur vers la page de login
 const headers = {
     headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('token')
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
     }
 }
 
@@ -30,6 +30,16 @@ document.querySelector('#logout-button').addEventListener('click', () => {
 })
 
 
+//Crée le bouton "suprimmer mon compte"
+document.querySelector('#delete-user-button').addEventListener('click', () => {
+    axios.delete('http://localhost:3000/api/users/me', headers).then((res) => {
+        localStorage.clear('userId');
+        localStorage.clear('token');
+        window.location.href = 'signup.html';
+    })
+})
+
+
 function displayName(userData) {
     document.querySelector('.firstname').textContent = userData.firstname;
     document.querySelector('.lastname').textContent = userData.lastname;
@@ -41,7 +51,9 @@ function addPost(event) {
     const postData = {};
     postData.title = event.target.title.value;
     postData.contentPost = event.target.contentPost.value;
-    postData.attachment = event.target.attachment.value;
+    // postData.attachment = event.target.attachment.value;
+    postData.attachment = event.target.attachment.files[0];
+
     console.log(postData)
     // const postString = JSON.stringify(postData);
     // console.log(postString)
