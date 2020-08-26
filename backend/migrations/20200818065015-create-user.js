@@ -20,6 +20,10 @@
        password: {
          type: Sequelize.STRING
        },
+       userAdmin: {
+         allowNull: false,
+         type: Sequelize.BOOLEAN
+       },
        createdAt: {
          allowNull: false,
          type: Sequelize.DATE

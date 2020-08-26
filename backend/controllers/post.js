@@ -1,7 +1,7 @@
 const Post = require('../models/post');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
-
+const async = require('async');
 const models = require('../models');
 
 
@@ -65,7 +65,7 @@ exports.deletePost = (req, res, next) => {
 exports.getAllPosts = (req, res, next) => {
   // console.log('get all posts backend');
   // const postList = 
-  models.Post.findAll({order: [['updatedAt', 'DESC']]})
+  models.Post.findAll({order: [['createdAt', 'DESC']]})
     .then((posts) => {
       // console.log('-----------------------------valeur de posts apres findAll---------------------------');
       // console.log(posts);
@@ -196,21 +196,61 @@ exports.likePost = (req, res, next) => {
   console.log(currentUserId)
   const postId = req.params.id;
   console.log(postId)
+
+  //models.Post.update({likes: postId.likes + 1})
+  // currentPost = await models.Post.findOne({ where: { id: postId} })
+  // const incrementResult = await currentPost.increment('likes', { by: 1 });
+  // .then(() => res.status(201).json({ message: 'resultat: ' + incrementResult + ' Post liké !'}))
+  // .catch(error => res.status(400).json({ error }));
+
+  // recherche d'un like précédent parl'utilisateur
+//   models.Like.findOne({
+//     where: {
+//         userId: userId,
+//         messageId: messageId
+//     }
+// })
+  // creation de l'association like
   models.Post.findOne({ where: { id: postId} })
-    .then(post => {
-      // const usersLiked = [];
-      // if(!(post.likes.includes(currentUserId))){ 
-      //   models.Post.likes.append(currentUserId)
-      //     .then(() => res.status(201).json({ message: 'Post liké !'}))
-      //     .catch(error => res.status(400).json({ error }));
-      // } else { // si l'utilisatuer annule son avis
-      //   models.Post.likes.destroy(currentUserId)
+  .then(currentPost => {
+    console.log('avant increment');
+    currentPost.increment('likes', { by: 1 });
+    console.log('apres increment');
+    
+      // models.User.findOne({ where: { id: currentUserId} })
+      // .then(currentUser => {
+      //     console.log(currentPost);
+      //     console.log(currentUser);
+      //   //= sequelize.define('Actor', { name: DataTypes.STRING });
+      //     currentPost.belongsToMany(currentUser, { through: 'Likes' });
+      //     currentUser.belongsToMany(currentPost, { through: 'Likes' });
+      //     console.log('done');
+          res.status(201).json({ message: 'Post liké !'})
+      // }) 
       
-      //     .then(() => res.status(201).json({ message: 'like annulé !'}))
-      //     .catch(error => res.status(400).json({ error }));   
-      // }
-    })
-    .catch(error => res.status(400).json({ error }));
+  })
+  // models.Post.findOne({ where: { id: postId} })
+  //   .then(post => {
+
+
+  //     // const usersLiked = [];
+  //     // if(!(post.likes.includes(currentUserId))){ 
+  //     //   models.Post.likes.append(currentUserId)
+  //     //     .then(() => res.status(201).json({ message: 'Post liké !'}))
+  //     //     .catch(error => res.status(400).json({ error }));
+  //     // } else { // si l'utilisatuer annule son avis
+  //     //   models.Post.likes.destroy(currentUserId)
+      
+  //     //     .then(() => res.status(201).json({ message: 'like annulé !'}))
+  //     //     .catch(error => res.status(400).json({ error }));   
+  //     // }
+  //   })
+   
+  
+ 
+  // .then(() => res.status(201).json({ message: 'Post liké !'}))
+  .catch(error => res.status(400).json({ error }));
+  
 };
 
 //ORIGINAL

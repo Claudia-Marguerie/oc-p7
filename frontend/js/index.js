@@ -51,6 +51,7 @@ function displayPosts() {
      axios.get('http://localhost:3000/api/posts/getAll', headers).then((res) => {
         // console.log(res)
         const postList = res.data;
+        const userAdmin = false;
         // console.log('postList = ' + postList)
 
         for (let i = 0; i < postList.length; i++) { //Pour chaque post
@@ -59,11 +60,11 @@ function displayPosts() {
             // console.log('postList[i].userId = ' + postList[i].userId)
             // console.log('userId = ' + userId)
             
-            if (postList[i].userId == userId) { //Si le créateur du post es le même que l'userID
+            if (userAdmin || postList[i].userId == userId) { //Si le créateur du post es le même que l'userID
                 const listPost = document.querySelector('#container_posts');
                 const postListItem = document.createElement('div');
                 postListItem.innerHTML = // Afficher le post (tout le HTML) avec boutons de modif / effacage
-                    '<div id="post_' + i + '" class="post-item">' +
+                    '<div id="post_' + postList[i].id + '" class="post-item">' +
                     '<div class="all-items">' +
                     '<div class="top-post">' +
                     '<div class="user-data">' +
@@ -87,7 +88,7 @@ function displayPosts() {
                     '<div class="bottom-post">' +
                     '<div class="like">' +
                     '<img id="like_' + postList[i].id + '" src="images/like.png" alt="">' +
-                    '<p id="like-post">' + postList[i].likes + '</p>' +
+                    '<p id="like-post_' + postList[i].id + '">' + postList[i].likes + '</p>' +
                     '</div>' +
                     '<div class="btn-user">' +
                     '<button id="modifybtn_' + postList[i].id +'" class="btn-user--update">Modifier</button>' +
@@ -109,7 +110,7 @@ function displayPosts() {
                 const listPost = document.querySelector('#container_posts');
                 const postListItem = document.createElement('div');
                 postListItem.innerHTML = // Afficher le post sans boutons de modif / effacage
-                    '<div id="post_' + i + '" class="post-item">' +
+                    '<div id="post_' + postList[i].id + '" class="post-item">' +
                     '<div class="all-items">' +
                     '<div class="top-post">' +
                     '<div class="user-data">' +
@@ -133,7 +134,7 @@ function displayPosts() {
                     '<div class="bottom-post">' +
                     '<div class="like">' +
                     '<img id="like_' + postList[i].id + '" src="images/like.png" alt="">' +
-                    '<p id="like-post">' + postList[i].likes + '</p>' +
+                    '<p id="like-post_' + postList[i].id + '">' + postList[i].likes + '</p>' +
                     '</div>' +
                     '</div>' +
                     '</div>' +
@@ -181,14 +182,14 @@ function goToDelete(postIdToDelete){
         //window.location.href = 'index.html'; // Redirection vers la page d'accueil
 
         //effacer le post du DOM
-        const numberOfDiv = document.getElementById("container_posts").childElementCount; // indique le numéro de la division à effacer
+        // const numberOfDiv = document.getElementById("container_posts").childElementCount; // indique le numéro de la division à effacer
 
-        for(let i = 1; i <= numberOfDiv; i++){  // On demande d'effacer la div dans le DOM
-            const postToDelete = document.querySelector('#container_posts div'); 
-            postToDelete.parentNode.removeChild(postToDelete); // on supprime la div du produit à effacer
+        // for(let i = 1; i <= numberOfDiv; i++){  // On demande d'effacer la div dans le DOM
+        //     const postToDelete = document.querySelector('#container_posts div'); 
+        //     postToDelete.parentNode.removeChild(postToDelete); // on supprime la div du produit à effacer
             
-        }
-        displayPosts();
+        // }
+        refreshPosts();
 
         }).catch(() => {
             console.log('erreur catch')
@@ -219,20 +220,62 @@ function userLike(postId) {
     console.log('changement du like pour le post no.'+postId)
     console.log(userId)
     axios.post('http://localhost:3000/api/posts/'+postId+'/like', userId, headers).then((res) => {
-        console.log(res.data)
+        console.log(res.data);
+        // refreshPosts();
+        refreshLikes();
     })
 }
 
 
-function displayLikes() {
-    document.querySelector('#like-post').textContent = post.likes;
-    axios.get('http://localhost:3000/api/posts').then((data) => {
-        console.log(res.data)
-
-        document.querySelector('#like-post').textContent = post.likes;
-    })
+function refreshPosts() {
+    const numberOfDiv = document.getElementById("container_posts").childElementCount; // indique le nonbre de division à effacer
+    console.log('numberOfDiv (refresh) = ' + numberOfDiv);
+    for(let i = 0; i < numberOfDiv; i++){  // On demande d'effacer la div dans le DOM
+        const postToDelete = document.querySelector('#container_posts div'); 
+        postToDelete.parentNode.removeChild(postToDelete); // on supprime la div du produit à effacer
+        
+    }
+    displayPosts();
 }
 
+function refreshLikes() {
+    axios.get('http://localhost:3000/api/posts/getAll', headers).then((res) => {
+        const postList = res.data;
+        const numberOfDiv = document.getElementById("container_posts").childElementCount; // indique le nonbre de division à effacer
+        const postListToUpdate = document.getElementById("container_posts").children;
+        console.log('numberOfDiv = ' + numberOfDiv);
+        console.log('postListToUpdate.length = ' + postListToUpdate.length);
+        for(let i = 0; i < numberOfDiv; i++){  // On demande d'effacer la div dans le DOM
+            // const postToUpdate = document.querySelector('#container_posts div'); 
+            console.log('postListToUpdate[' + i + ']');
+            console.log(postListToUpdate[i]);
+            const divIdToUpdate = postListToUpdate[i].firstChild.getAttribute("id"); 
+            const postIdToUpdate = divIdToUpdate.split("_")[1];
+            console.log('i = ' + i + ' ; divIdToUpdate = ' + divIdToUpdate);
+            console.log('i = ' + i + ' ; postIdToUpdate = ' + postIdToUpdate);
+
+            const updatedPost = postList.find(post => post.id == postIdToUpdate);
+            console.log('updatedPost');
+            console.log(updatedPost);
+
+            console.log('updatedPost.likes');
+            console.log(updatedPost.likes);
+            document.querySelector('#like-post_' + postIdToUpdate).textContent = updatedPost.likes;
+            // updatedPost.likes;
+
+            // postList[i].id 
+            // document.getElementById("container_posts").childNodes;
+            // document.getElementById("myList").firstChild.innerHTML; 
+            // postToUpdate.parentNode.removeChild(postToDelete); // on supprime la div du produit à effacer
+            
+        }
+    
+
+
+
+        
+    })
+}
 
 // Affichage du bouton TOP
 mybutton = document.getElementById("myBtn");
@@ -258,3 +301,4 @@ function topFunction() {
 
 
 displayPosts();
+// refreshPosts();
