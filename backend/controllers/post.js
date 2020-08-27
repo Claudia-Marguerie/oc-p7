@@ -10,7 +10,7 @@ exports.createPost = (req, res, next) => {
   const token = req.headers.authorization.split(' ')[1];
   const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
   const userId = decodedToken.userId;
-  console.log(userId)
+  console.log('userId' + userId);
   // models.User.findById(userId)
   // const postObject = req.body;
   // delete postObject.id;
@@ -65,7 +65,7 @@ exports.deletePost = (req, res, next) => {
 exports.getAllPosts = (req, res, next) => {
   // console.log('get all posts backend');
   // const postList = 
-  models.Post.findAll({order: [['createdAt', 'DESC']]})
+  models.Post.findAll({order: [['updatedAt', 'DESC']]})
     .then((posts) => {
       // console.log('-----------------------------valeur de posts apres findAll---------------------------');
       // console.log(posts);
@@ -74,6 +74,7 @@ exports.getAllPosts = (req, res, next) => {
           const userId = posts[i].userId;
           models.User.findOne({ where: { id: userId } }).then(
             (user) => {
+              
               // console.log('-----------valeur du user avec le userId=' + userId + ' pour le post n° ' + i);
               // console.log(user);
 
@@ -84,23 +85,37 @@ exports.getAllPosts = (req, res, next) => {
               // console.log(lastname);
               posts[i].dataValues.authorFirstName = firstname;
               posts[i].dataValues.authorLastName = lastname;
+              posts[i].dataValues.userAlreadyLiked = false;
               // return res.status(404).send(new Error('User not found!'));
             } else {
               posts[i].dataValues.authorFirstName = 'M./Mme';
               posts[i].dataValues.authorLastName = 'Anonyme';
-              // console.log('anonyme');
             }
-            // console.log('-----------valeur du post ' + i + ' apres ajout du nom / prenom');
-            // console.log(posts[i]);
-            if (i == posts.length-1)
-            {
-              // console.log('-----------------------------fin de la boucle for---------------------------');
-              // console.log(posts);
-              // console.log('-----------------------------apres posts, juste avant renvoi de posts vers le frontend----------------------------');
-              res.status(200).json(posts);
-            }
-          } 
-          ).catch(
+                // Verification de l'association like 
+                // /!\ /!\ désactivé car la table Like n'existe pas encore
+                // models.Like.findOne({ where: { userId: userId, postId: postId} })
+                models.Post.findOne({ where: { id: 4712132} }) // /!\ fausse instruction pour garder la structure '.then(...)' sans qu'il y ait d'erreur à cause de l'absence de la table Like --> a supprimer plus tard
+                .then(foundLike => {
+                  if (!foundLike){
+                    posts[i].dataValues.userAlreadyLiked = false;
+                  } else {
+                    posts[i].dataValues.userAlreadyLiked = true;
+                  }
+
+                    // console.log('anonyme');
+                  
+                  // console.log('-----------valeur du post ' + i + ' apres ajout du nom / prenom');
+                  // console.log(posts[i]);
+                  if (i == posts.length-1)
+                  {
+                    // console.log('-----------------------------fin de la boucle for---------------------------');
+                    // console.log(posts);
+                    // console.log('-----------------------------apres posts, juste avant renvoi de posts vers le frontend----------------------------');
+                    res.status(200).json(posts);
+                  }
+                })
+          })
+          .catch(
             () => {
             res.status(500).send(new Error('Database error!'));
           })
@@ -190,45 +205,101 @@ exports.getOnePost = (req, res, next) => {
 
 exports.likePost = (req, res, next) => {
   console.log('début like post')
+
+  // récupération de l'Id de l'utilisateur
   const token = req.headers.authorization.split(' ')[1];
   const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-  const currentUserId = decodedToken.userId;
-  console.log(currentUserId)
+  const userId = decodedToken.userId;
+  console.log('userId = ' + userId)
+
+  // récupération de l'Id du post
   const postId = req.params.id;
-  console.log(postId)
+  console.log('postId = ' + postId)
 
-  //models.Post.update({likes: postId.likes + 1})
-  // currentPost = await models.Post.findOne({ where: { id: postId} })
-  // const incrementResult = await currentPost.increment('likes', { by: 1 });
-  // .then(() => res.status(201).json({ message: 'resultat: ' + incrementResult + ' Post liké !'}))
-  // .catch(error => res.status(400).json({ error }));
+  // Verification de l'association like 
+  // /!\ /!\ désactivé car la table Like n'existe pas encore
+  // models.Like.findOne({ where: { userId: userId, postId: postId} })
+  models.Post.findOne({ where: { id: 4343414} }) // /!\ fausse instruction pour garder la structure '.then(...)' sans qu'il y ait d'erreur à cause de l'absence de la table Like --> a supprimer plus tard
+  .then(foundLike => {
+    console.log('foundLike');
+    console.log(foundLike);
 
-  // recherche d'un like précédent parl'utilisateur
+    if(!foundLike){ // si l'utilisateur n'a pas liké le post
+    
+    console.log('creation de l"association entre le post et l"utilisateur ');
+    // /!\ /!\ désactivé car la table Like n'existe pas encore
+    // new models.Like({ // creation de l'association entre le post et l'utilisateur dans la table de Like
+    //     userId: userId,
+    //     postId: postId
+    //   })
+      models.Post.findOne({ where: { id: 4343414} }) // /!\ fausse instruction pour garder la structure '.then(...)' sans qu'il y ait d'erreur à cause de l'absence de la table Like --> a supprimer plus tard
+      .then(association => {
+        console.log('association');
+        console.log(association);
+
+        models.Post.findOne({ where: { id: postId} }) // recherche du post a liker
+        .then(currentPost => {
+
+          console.log('avant increment');
+          currentPost.increment('likes', { by: 1 }); // increment du nombre de likes pour le post
+          console.log('apres increment');
+
+          res.status(201).json({ message: 'Post liké !'})
+        })
+      })
+
+    }else{ //si l'utilisateur a deja liké ce post
+
+      // on detruit le lien entre le post et l'utilisateur dans la table Like
+      console.log('on detruit le lien entre le post et l"utilisateur dans la table Like');
+          // /!\ /!\ désactivé car la table Like n'existe pas encore
+      // models.Like.destroy({ where: { userId: userId, postId: postId} })
+      models.Post.findOne({ where: { id: 4343414} }) // /!\ fausse instruction pour garder la structure '.then(...)' sans qu'il y ait d'erreur à cause de l'absence de la table Like --> a supprimer plus tard
+      .then( () => {
+
+        console.log('recherche du post ou enlever like');
+        models.Post.findOne({ where: { id: postId} }) // recherche du post ou enlever like
+        .then(currentPost => {
+
+          console.log('avant décrément');
+          currentPost.decrement('likes', { by: 1 });
+          console.log('apres décrément');
+
+          res.status(201).json({ message: 'Like supprimé'})
+        })
+      })
+    } //fin du if/else
+  })
+  .catch(error => res.status(400).json({ error }));
+};
+
+// ---- Brouillon ----
+   //   models.Post.update({likes: postId.likes + 1})
+//   currentPost = await models.Post.findOne({ where: { id: postId} })
+//   const incrementResult = await currentPost.increment('likes', { by: 1 });
+//   .then(() => res.status(201).json({ message: 'resultat: ' + incrementResult + ' Post liké !'}))
+//   .catch(error => res.status(400).json({ error }));
+
+//   recherche d'un like précédent parl'utilisateur
 //   models.Like.findOne({
 //     where: {
 //         userId: userId,
 //         messageId: messageId
 //     }
 // })
-  // creation de l'association like
-  models.Post.findOne({ where: { id: postId} })
-  .then(currentPost => {
-    console.log('avant increment');
-    currentPost.increment('likes', { by: 1 });
-    console.log('apres increment');
-    
-      // models.User.findOne({ where: { id: currentUserId} })
-      // .then(currentUser => {
+
+// models.User.findOne({ where: { id: currentUserId} })
+    //   .then(currentUser => {
       //     console.log(currentPost);
       //     console.log(currentUser);
       //   //= sequelize.define('Actor', { name: DataTypes.STRING });
       //     currentPost.belongsToMany(currentUser, { through: 'Likes' });
       //     currentUser.belongsToMany(currentPost, { through: 'Likes' });
       //     console.log('done');
-          res.status(201).json({ message: 'Post liké !'})
+          // res.status(201).json({ message: 'Post liké !'})
       // }) 
       
-  })
+
   // models.Post.findOne({ where: { id: postId} })
   //   .then(post => {
 
@@ -249,9 +320,7 @@ exports.likePost = (req, res, next) => {
   
  
   // .then(() => res.status(201).json({ message: 'Post liké !'}))
-  .catch(error => res.status(400).json({ error }));
-  
-};
+
 
 //ORIGINAL
 // exports.likePost = (req, res, next) => {

@@ -17,7 +17,7 @@ axios.get('http://localhost:3000/api/users/me', headers).then((res) => {
 const user = JSON.parse(localStorage.getItem('user'));
 const userId = user.id;
 const token = localStorage.getItem('token');
-// const userAuth = false;
+const userAdmin = false;
 const postList = [];
 
 
@@ -51,7 +51,7 @@ function displayPosts() {
      axios.get('http://localhost:3000/api/posts/getAll', headers).then((res) => {
         // console.log(res)
         const postList = res.data;
-        const userAdmin = false;
+
         // console.log('postList = ' + postList)
 
         for (let i = 0; i < postList.length; i++) { //Pour chaque post
@@ -60,7 +60,13 @@ function displayPosts() {
             // console.log('postList[i].userId = ' + postList[i].userId)
             // console.log('userId = ' + userId)
             
-            if (userAdmin || postList[i].userId == userId) { //Si le créateur du post es le même que l'userID
+            if (postList[i].userAlreadyLiked){
+                likeImg = "images/like-green.png"
+            } else {
+                likeImg = "images/like.png"
+            }
+
+            if (postList[i].userId == userId) { //Si le créateur du post es le même que l'userID
                 const listPost = document.querySelector('#container_posts');
                 const postListItem = document.createElement('div');
                 postListItem.innerHTML = // Afficher le post (tout le HTML) avec boutons de modif / effacage
@@ -87,7 +93,7 @@ function displayPosts() {
                     '</div>' +
                     '<div class="bottom-post">' +
                     '<div class="like">' +
-                    '<img id="like_' + postList[i].id + '" src="images/like.png" alt="">' +
+                    '<img id="like_' + postList[i].id + '" src=' + likeImg + ' alt="">' +
                     '<p id="like-post_' + postList[i].id + '">' + postList[i].likes + '</p>' +
                     '</div>' +
                     '<div class="btn-user">' +
@@ -133,14 +139,16 @@ function displayPosts() {
                     '</div>' +
                     '<div class="bottom-post">' +
                     '<div class="like">' +
-                    '<img id="like_' + postList[i].id + '" src="images/like.png" alt="">' +
+                    '<img id="like_' + postList[i].id + '" src=' + likeImg + ' alt="">' +
                     '<p id="like-post_' + postList[i].id + '">' + postList[i].likes + '</p>' +
                     '</div>' +
                     '</div>' +
                     '</div>' +
                     '</div>'
                 listPost.appendChild(postListItem);
-            }
+            } 
+            
+
             //addEventListener pour le changement de couleur du like
             document.querySelector('#like_' + postList[i].id).addEventListener('click', () => {
                 changeImageLike('like_' + postList[i].id)
