@@ -111,6 +111,51 @@ function displayPosts() {
                 document.querySelector('#deletebtn_' + postList[i].id).addEventListener('click', () => {
                     goToDelete(postList[i].id)
                 })
+            } else if(userAdmin) {
+                const listPost = document.querySelector('#container_posts');
+                const postListItem = document.createElement('div');
+                postListItem.innerHTML = // Afficher le post (tout le HTML) avec boutons de modif / effacage
+                    '<div id="post_' + postList[i].id + '" class="post-item">' +
+                    '<div class="all-items">' +
+                    '<div class="top-post">' +
+                    '<div class="user-data">' +
+                    '<img src="images/ball_logo.png" alt="Sphère du logo">' +
+                    '<p>' + postList[i].authorFirstName + '</p>' + '<p>' + postList[i].authorLastName + '</p>' +
+                    '</div>' +
+                    '<div class="date-time-data">' +
+                    '<p class="date">' + formatDate(postList[i].updatedAt) + '</p>' + //voir comment afficher la date
+                    '<p class="time">' + formatTime(postList[i].updatedAt) + '</p>' + // voir comment afficher l'heure
+                    '</div>' +
+                    '</div>' +
+                    '<div class="post">' +
+                    '<div class="post-image-texte">' +
+                    // '<img src="' + postList[i].attachment + '" alt="">' +
+                    '<div class="only-text">' +
+                    '<h2>' + postList[i].title + '</h2>' +
+                    '<p>' + postList[i].contentPost + '</p>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="bottom-post">' +
+                    '<div class="like">' +
+                    '<img id="like_' + postList[i].id + '" src=' + likeImg + ' alt="">' +
+                    '<p id="like-post_' + postList[i].id + '">' + postList[i].likes + '</p>' +
+                    '</div>' +
+                    '<div class="btn-user">' +
+                    // '<button id="modifybtn_' + postList[i].id +'" class="btn-user--update">Modifier</button>' +
+                    '<button id="deletebtn_' + postList[i].id +'" class="btn-user--delete">Effacer</button>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>'
+                listPost.appendChild(postListItem);
+
+                // document.querySelector('#modifybtn_' + postList[i].id).addEventListener('click', () => {
+                //     goToModify(postList[i].id)
+                // })
+                document.querySelector('#deletebtn_' + postList[i].id).addEventListener('click', () => {
+                    goToDelete(postList[i].id)
+                })
 
             } else { // sinon
                 const listPost = document.querySelector('#container_posts');
