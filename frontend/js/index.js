@@ -5,20 +5,19 @@ const headers = {
     }
 }
 
+const token = localStorage.getItem('token');
+const postList = [];
+let user = null
+
 // Affichage Nom et prénom de l'utilisateur
 axios.get('http://localhost:3000/api/users/me', headers).then((res) => {
+    user = res.data
+    localStorage.setItem('user', JSON.stringify(res.data))
     displayName(res.data)
-
+    displayPosts();
 }).catch(() => {
     window.location.href = 'login.html'
 })
-
-
-const user = JSON.parse(localStorage.getItem('user'));
-const userId = user.id;
-const token = localStorage.getItem('token');
-const userAdmin = false;
-const postList = [];
 
 
 // Crée le bouton 'deconnexion'
@@ -48,159 +47,88 @@ function displayName(userData) {
 
 //Affichage des posts
 function displayPosts() {
-     axios.get('http://localhost:3000/api/posts/getAll', headers).then((res) => {
-        // console.log(res)
+    axios.get('http://localhost:3000/api/posts/getAll', headers).then((res) => {
         const postList = res.data;
 
         // console.log('postList = ' + postList)
 
         for (let i = 0; i < postList.length; i++) { //Pour chaque post
-            // console.log('postList[i] = ' + postList[i])
-            // console.log(postList[i])
-            // console.log('postList[i].userId = ' + postList[i].userId)
-            // console.log('userId = ' + userId)
-            
-            if (postList[i].userAlreadyLiked){
+            let likeImg = "images/like.png"
+            let alreadyLiked = postList[i].Likes.find(like => like.UserId === user.id)
+            if (alreadyLiked) {
                 likeImg = "images/like-green.png"
-            } else {
-                likeImg = "images/like.png"
             }
 
-            if (postList[i].userId == userId) { //Si le créateur du post es le même que l'userID
-                const listPost = document.querySelector('#container_posts');
-                const postListItem = document.createElement('div');
-                postListItem.innerHTML = // Afficher le post (tout le HTML) avec boutons de modif / effacage
-                    '<div id="post_' + postList[i].id + '" class="post-item">' +
-                    '<div class="all-items">' +
-                    '<div class="top-post">' +
-                    '<div class="user-data">' +
-                    '<img src="images/ball_logo.png" alt="Sphère du logo">' +
-                    '<p>' + postList[i].authorFirstName + '</p>' + '<p>' + postList[i].authorLastName + '</p>' +
-                    '</div>' +
-                    '<div class="date-time-data">' +
-                    '<p class="date">' + formatDate(postList[i].updatedAt) + '</p>' + //voir comment afficher la date
-                    '<p class="time">' + formatTime(postList[i].updatedAt) + '</p>' + // voir comment afficher l'heure
-                    '</div>' +
-                    '</div>' +
-                    '<div class="post">' +
-                    '<div class="post-image-texte">' +
-                    // '<img src="' + postList[i].attachment + '" alt="">' +
-                    '<div class="only-text">' +
-                    '<h2>' + postList[i].title + '</h2>' +
-                    '<p>' + postList[i].contentPost + '</p>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="bottom-post">' +
-                    '<div class="like">' +
-                    '<img id="like_' + postList[i].id + '" src=' + likeImg + ' alt="">' +
-                    '<p id="like-post_' + postList[i].id + '">' + postList[i].likes + '</p>' +
-                    '</div>' +
-                    '<div class="btn-user">' +
-                    '<button id="modifybtn_' + postList[i].id +'" class="btn-user--update">Modifier</button>' +
-                    '<button id="deletebtn_' + postList[i].id +'" class="btn-user--delete">Effacer</button>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>'
-                listPost.appendChild(postListItem);
+            let actionButtons = '';
+            if (postList[i].User.id === user.id || user.userAdmin) {
+                actionButtons = '<button id="modifybtn_' + postList[i].id + '" class="btn-user--update">Modifier</button>' +
+                    '<button id="deletebtn_' + postList[i].id + '" class="btn-user--delete">Effacer</button>';
+            }
 
-                document.querySelector('#modifybtn_' + postList[i].id).addEventListener('click', () => {
+            //Si le créateur du post es le même que l'userID
+            const listPost = document.querySelector('#container_posts');
+            const postListItem = document.createElement('div');
+            postListItem.innerHTML = // Afficher le post (tout le HTML) avec boutons de modif / effacage
+                '<div id="post_' + postList[i].id + '" class="post-item">' +
+                '<div class="all-items">' +
+                '<div class="top-post">' +
+                '<div class="user-data">' +
+                '<img src="images/ball_logo.png" alt="Sphère du logo">' +
+                '<p>' + postList[i].User.firstname + '</p>' + '<p>' + postList[i].User.lastname + '</p>' +
+                '</div>' +
+                '<div class="date-time-data">' +
+                '<p class="date">' + formatDate(postList[i].updatedAt) + '</p>' + //voir comment afficher la date
+                '<p class="time">' + formatTime(postList[i].updatedAt) + '</p>' + // voir comment afficher l'heure
+                '</div>' +
+                '</div>' +
+                '<div class="post">' +
+                '<div class="post-image-texte">' +
+                // '<img src="' + postList[i].attachment + '" alt="">' +
+                '<div class="only-text">' +
+                '<h2>' + postList[i].title + '</h2>' +
+                '<p>' + postList[i].contentPost + '</p>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '<div class="bottom-post">' +
+                '<div class="like">' +
+                '<img id="like_' + postList[i].id + '" src=' + likeImg + ' alt="">' +
+                '<p id="like-post_' + postList[i].id + '">' + postList[i].Likes.length + '</p>' +
+                '</div>' +
+                '<div class="btn-user">' +
+                actionButtons +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>'
+            listPost.appendChild(postListItem);
+
+            const modifyBtn = document.querySelector('#modifybtn_' + postList[i].id)
+            const deleteBtn = document.querySelector('#deletebtn_' + postList[i].id)
+
+            if(modifyBtn){
+                modifyBtn.addEventListener('click', () => {
                     goToModify(postList[i].id)
                 })
-                document.querySelector('#deletebtn_' + postList[i].id).addEventListener('click', () => {
+            }
+
+            if(deleteBtn){
+                deleteBtn.addEventListener('click', () => {
                     goToDelete(postList[i].id)
                 })
-            } else if(userAdmin) {
-                const listPost = document.querySelector('#container_posts');
-                const postListItem = document.createElement('div');
-                postListItem.innerHTML = // Afficher le post (tout le HTML) avec boutons de modif / effacage
-                    '<div id="post_' + postList[i].id + '" class="post-item">' +
-                    '<div class="all-items">' +
-                    '<div class="top-post">' +
-                    '<div class="user-data">' +
-                    '<img src="images/ball_logo.png" alt="Sphère du logo">' +
-                    '<p>' + postList[i].authorFirstName + '</p>' + '<p>' + postList[i].authorLastName + '</p>' +
-                    '</div>' +
-                    '<div class="date-time-data">' +
-                    '<p class="date">' + formatDate(postList[i].updatedAt) + '</p>' + //voir comment afficher la date
-                    '<p class="time">' + formatTime(postList[i].updatedAt) + '</p>' + // voir comment afficher l'heure
-                    '</div>' +
-                    '</div>' +
-                    '<div class="post">' +
-                    '<div class="post-image-texte">' +
-                    // '<img src="' + postList[i].attachment + '" alt="">' +
-                    '<div class="only-text">' +
-                    '<h2>' + postList[i].title + '</h2>' +
-                    '<p>' + postList[i].contentPost + '</p>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="bottom-post">' +
-                    '<div class="like">' +
-                    '<img id="like_' + postList[i].id + '" src=' + likeImg + ' alt="">' +
-                    '<p id="like-post_' + postList[i].id + '">' + postList[i].likes + '</p>' +
-                    '</div>' +
-                    '<div class="btn-user">' +
-                    // '<button id="modifybtn_' + postList[i].id +'" class="btn-user--update">Modifier</button>' +
-                    '<button id="deletebtn_' + postList[i].id +'" class="btn-user--delete">Effacer</button>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>'
-                listPost.appendChild(postListItem);
+            }
 
-                // document.querySelector('#modifybtn_' + postList[i].id).addEventListener('click', () => {
-                //     goToModify(postList[i].id)
-                // })
-                document.querySelector('#deletebtn_' + postList[i].id).addEventListener('click', () => {
-                    goToDelete(postList[i].id)
-                })
-
-            } else { // sinon
-                const listPost = document.querySelector('#container_posts');
-                const postListItem = document.createElement('div');
-                postListItem.innerHTML = // Afficher le post sans boutons de modif / effacage
-                    '<div id="post_' + postList[i].id + '" class="post-item">' +
-                    '<div class="all-items">' +
-                    '<div class="top-post">' +
-                    '<div class="user-data">' +
-                    '<img src="images/ball_logo.png" alt="Sphère du logo">' +
-                    '<p>' + postList[i].authorFirstName + '</p>' + '<p>' + postList[i].authorLastName + '</p>' +
-                    '</div>' +
-                    '<div class="date-time-data">' +
-                    '<p class="date">' + formatDate(postList[i].updatedAt) + '</p>' + //voir comment afficher la date
-                    '<p class="time">' + formatTime(postList[i].updatedAt) + '</p>' + // voir comment afficher l'heure
-                    '</div>' +
-                    '</div>' +
-                    '<div class="post">' +
-                    '<div class="post-image-texte">' +
-                    // '<img src="' + postList[i].attachment + '" alt="">' +
-                    '<div class="only-text">' +
-                    '<h2>' + postList[i].title + '</h2>' +
-                    '<p>' + postList[i].contentPost + '</p>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="bottom-post">' +
-                    '<div class="like">' +
-                    '<img id="like_' + postList[i].id + '" src=' + likeImg + ' alt="">' +
-                    '<p id="like-post_' + postList[i].id + '">' + postList[i].likes + '</p>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>'
-                listPost.appendChild(postListItem);
-            } 
-            
 
             //addEventListener pour le changement de couleur du like
             document.querySelector('#like_' + postList[i].id).addEventListener('click', () => {
-                changeImageLike('like_' + postList[i].id)
-                userLike(postList[i].id)
+                axios.post('http://localhost:3000/api/posts/' + postList[i].id + '/like', user.id, headers).then(({data}) => {
+                    postList[i] = data
+                    updateLike(postList[i].id, alreadyLiked, postList[i].Likes.length)
+                    alreadyLiked = !alreadyLiked
+                })
             })
         }
-    })
+    });
 }
 
 
@@ -218,75 +146,40 @@ function formatTime(unformattedDate) {
 }
 
 
-function goToModify(postIdToModify){
+function goToModify(postIdToModify) {
     localStorage.setItem('postIdToModify', postIdToModify); // enregistre l'ID du post a modifier (postIdToModify) dans le local storage
     window.location.href = 'modify_post.html';// renvoie vers la page de modif du post
 }
 
 
-function goToDelete(postIdToDelete){
-    axios.delete('http://localhost:3000/api/posts/'+ postIdToDelete, headers).then((res) => {
-        console.log('après PUT')
-        const data = res.data
-        console.log(data)
-        // localStorage.setItem("postData", JSON.stringify(data.postData)) // on converti la liste en string pour qu'elle soit lisible par javascript. 
-        // localStorage.setItem('token', data.token);
-        console.log('post effacé')
-        //window.location.href = 'index.html'; // Redirection vers la page d'accueil
-
-        //effacer le post du DOM
-        // const numberOfDiv = document.getElementById("container_posts").childElementCount; // indique le numéro de la division à effacer
-
-        // for(let i = 1; i <= numberOfDiv; i++){  // On demande d'effacer la div dans le DOM
-        //     const postToDelete = document.querySelector('#container_posts div'); 
-        //     postToDelete.parentNode.removeChild(postToDelete); // on supprime la div du produit à effacer
-            
-        // }
+function goToDelete(postIdToDelete) {
+    axios.delete('http://localhost:3000/api/posts/' + postIdToDelete, headers).then((res) => {
         refreshPosts();
 
-        }).catch(() => {
-            console.log('erreur catch')
-            // window.location.href = 'login.html'
-        })
-}
-
-
-//Changement de couleur au like
-function changeImageLike(likeBtnId){
-    console.log(likeBtnId);
-    var imageDiv = document.getElementById(likeBtnId);
-    console.log(imageDiv);
-    const imageNameCurrent = imageDiv.getAttribute("src");
-  if (imageNameCurrent == "images/like-green.png"){
-    imageNameNew = "images/like.png";  
-    console.log('yes');
-  } else {
-   imageNameNew = "images/like-green.png";
-   console.log('yes');
-   }
-   console.log(imageNameNew);
-   imageDiv.setAttribute("src", imageNameNew);	   
-}
-
-
-function userLike(postId) {
-    console.log('changement du like pour le post no.'+postId)
-    console.log(userId)
-    axios.post('http://localhost:3000/api/posts/'+postId+'/like', userId, headers).then((res) => {
-        console.log(res.data);
-        // refreshPosts();
-        refreshLikes();
+    }).catch(() => {
+        console.log('erreur catch')
+        // window.location.href = 'login.html'
     })
 }
 
 
+//Changement de couleur au like
+function updateLike(postId, alreadyLiked, nbLikes) {
+    const imageDiv = document.querySelector('#like_' + postId);
+    if (alreadyLiked) {
+        imageDiv.setAttribute("src", "images/like.png");
+    } else {
+        imageDiv.setAttribute("src", "images/like-green.png");
+    }
+    document.querySelector('#like-post_' + postId).textContent = nbLikes
+}
+
 function refreshPosts() {
     const numberOfDiv = document.getElementById("container_posts").childElementCount; // indique le nonbre de division à effacer
-    console.log('numberOfDiv (refresh) = ' + numberOfDiv);
-    for(let i = 0; i < numberOfDiv; i++){  // On demande d'effacer la div dans le DOM
-        const postToDelete = document.querySelector('#container_posts div'); 
+    for (let i = 0; i < numberOfDiv; i++) {  // On demande d'effacer la div dans le DOM
+        const postToDelete = document.querySelector('#container_posts div');
         postToDelete.parentNode.removeChild(postToDelete); // on supprime la div du produit à effacer
-        
+
     }
     displayPosts();
 }
@@ -298,11 +191,11 @@ function refreshLikes() {
         const postListToUpdate = document.getElementById("container_posts").children;
         console.log('numberOfDiv = ' + numberOfDiv);
         console.log('postListToUpdate.length = ' + postListToUpdate.length);
-        for(let i = 0; i < numberOfDiv; i++){  // On demande d'effacer la div dans le DOM
+        for (let i = 0; i < numberOfDiv; i++) {  // On demande d'effacer la div dans le DOM
             // const postToUpdate = document.querySelector('#container_posts div'); 
             console.log('postListToUpdate[' + i + ']');
             console.log(postListToUpdate[i]);
-            const divIdToUpdate = postListToUpdate[i].firstChild.getAttribute("id"); 
+            const divIdToUpdate = postListToUpdate[i].firstChild.getAttribute("id");
             const postIdToUpdate = divIdToUpdate.split("_")[1];
             console.log('i = ' + i + ' ; divIdToUpdate = ' + divIdToUpdate);
             console.log('i = ' + i + ' ; postIdToUpdate = ' + postIdToUpdate);
@@ -320,13 +213,10 @@ function refreshLikes() {
             // document.getElementById("container_posts").childNodes;
             // document.getElementById("myList").firstChild.innerHTML; 
             // postToUpdate.parentNode.removeChild(postToDelete); // on supprime la div du produit à effacer
-            
+
         }
-    
 
 
-
-        
     })
 }
 
@@ -351,7 +241,4 @@ function topFunction() {
     document.body.scrollTop = 0; // For Safari
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
-
-
-displayPosts();
 // refreshPosts();

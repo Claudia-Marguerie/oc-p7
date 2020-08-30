@@ -5,17 +5,13 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     contentPost: DataTypes.STRING,
     attachment: DataTypes.STRING,
-    likes: DataTypes.INTEGER,
-  }, {
-    classMethods: {
-      associate: function (models) {
-        models.Post.belongsTo(models.User, {
-          foreignKey: {
-            allowNull: false
-          }
-        })
-      }
-    }
-  });
+  }, {});
+
+  Post.associate = function (models) {
+    models.Post.belongsTo(models.User, {
+      foreignKey: 'userId'
+    });
+    models.Post.hasMany(models.Like, {onDelete: 'cascade'})
+  }
   return Post;
 }

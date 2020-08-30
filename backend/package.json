@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
+    "initdb": "sequelize-cli db:create && sequelize-cli db:migrate",
+    "migrate": "sequelize-cli db:migrate",
     "dev": "nodemon server.js"
   },
   "keywords": [],

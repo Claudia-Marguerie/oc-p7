@@ -2,18 +2,25 @@
 
 module.exports = (sequelize, DataTypes) => {
   var Like = sequelize.define('Like', {
-    isLike: DataTypes.INTEGER
+    /*userId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'User',
+        key: 'id'
+      }
+    },
+    postId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Post',
+        key: 'id'
+      }
+    }*/
   }, {});
   Like.associate = function (models) {
-
-    models.User.belongsToMany(models.Post, {
-      through: models.Like,
-      onDelete: 'CASCADE'
-    });
-
-    models.Post.belongsToMany(models.User, {
-      through: models.Like,
-    });
+    models.Post.belongsToMany(models.User, {through: models.Like})
+    models.User.belongsToMany(models.Post, {through: models.Like})
   };
+
   return Like;
 };
