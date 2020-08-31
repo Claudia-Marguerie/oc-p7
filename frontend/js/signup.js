@@ -6,8 +6,8 @@ function signUp(event){
     user.email = event.target.email.value;
     user.password = event.target.password.value;
 
-    const userObject = JSON.stringify(user);
-    console.log(userObject)
+    // const userObject = JSON.stringify(user);
+    // console.log(userObject)
 
     axios.post('http://localhost:3000/api/users/signup', user).then((response) => {
         const data = response.data

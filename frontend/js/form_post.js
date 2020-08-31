@@ -31,13 +31,13 @@ document.querySelector('#logout-button').addEventListener('click', () => {
 
 
 //Crée le bouton "suprimmer mon compte"
-document.querySelector('#delete-user-button').addEventListener('click', () => {
-    axios.delete('http://localhost:3000/api/users/me', headers).then((res) => {
-        localStorage.clear('userId');
-        localStorage.clear('token');
-        window.location.href = 'signup.html';
-    })
-})
+// document.querySelector('#delete-user-button').addEventListener('click', () => {
+//     axios.delete('http://localhost:3000/api/users/me', headers).then((res) => {
+//         localStorage.clear('userId');
+//         localStorage.clear('token');
+//         window.location.href = 'signup.html';
+//     })
+// })
 
 
 function displayName(userData) {

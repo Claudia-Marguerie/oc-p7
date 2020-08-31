@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="./css/style.css"/>
         <link rel="shortcut icon" type="image/x-icon" href="./images/favicon_groupomania.ico">
-        <title>Modifier le post</title>
+        <title>Modifier mon profil</title>
     </head>
     <body>
         <header>
@@ -16,8 +16,7 @@
                     <p class="firstname"><!-- Ici s'affiche le prénom --></p><p class="lastname"> <!-- Ici s'affiche le nom --></p>
                 </div>
                 <div class="delete-logout">
-                    <a class="delete-user" href="profil.html">Mon profil</a>
-                    <!-- <p id="delete-user-button" class="delete-user" href="signup.html">Supprimer mon compte</p> -->
+                    <p id="delete-user-button" class="delete-user" href="signup.html">Supprimer mon compte</p>
                     <p id="logout-button" class="logout-user">Déconnexion</p>
                 </div>
             </div>
@@ -25,25 +24,25 @@
         <div class="container-form2">
             <nav class="nav-text">
                 <a href="index.html"><h3>Posts /</h3></a>
-                <h3>Modifier le post</h3>
+                <h3>Modifier mon profil</h3>
             </nav>
             <form id="form">
-                <div class="form-item2">
-                    <label for="title">Titre :</label>
-                    <input id="title" type="text" placeholder="Titre" name="title">
+                <div class="form-item">
+                    <label for="lastname">Nom :</label>
+                    <input id="lastname" type="text" placeholder="Nom" name="lastname" pattern="^\D*$" required>
                 </div>
-                <div class="form-item2">
-                    <label for="contentPost">Message :</label>
-                    <textarea id="contentPost" placeholder="Ecrivez votre texte à partager" name="message"></textarea>
+                <div class="form-item">
+                    <label for="firstname">Prénom :</label>
+                    <input id="firstname" type="text" placeholder="Prénom" name="firstname" pattern="^\D*$" required>
                 </div>
-                <input type="file" name="attachment" class="btn-multimedia">
-                <!-- <div class="btn-multimedia">
-                    <button id="attachment" type="file" class="btn-multimedia--photo"><img src="images/camera.png" alt="picto camera"> / <img src="images/video.png" alt="picto video"> Modifier multimédia</button>
-                </div> -->
-                <button class="btn-send" type="submit">Valider les modifications</button>
+                <div class="form-item">
+                    <label for="email">E-mail :</label>
+                    <input id="email" type="email" placeholder="E-mail" name="email" required>
+                </div>
+                <button class="btn-validation" type="submit">Valider</button>
             </form>
         </div>
         <script type="application/javascript" src="node_modules/axios/dist/axios.min.js"></script>
-        <script type="application/javascript" src="js/modify_post.js"></script>
+        <script type="application/javascript" src="js/profil.js"></script>
     </body>
 </html>

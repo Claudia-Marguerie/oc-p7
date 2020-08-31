@@ -76,6 +76,7 @@ exports.getAllPosts = (req, res, next) => {
         });
 };
 
+
 exports.getOnePost = (req, res, next) => {
     const postId = parseInt(req.params.id)
     models.Post.findByPk(postId)

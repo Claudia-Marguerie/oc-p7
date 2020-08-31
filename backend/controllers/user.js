@@ -62,7 +62,7 @@ exports.userData = (req, res, next) => {
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
     const userId = decodedToken.userId;
 
-    models.User.findByPk(userId, {attributes: ['id', 'firstname', 'lastname', 'userAdmin']}).then(
+    models.User.findByPk(userId, {attributes: ['id', 'firstname', 'lastname', 'email', 'userAdmin']}).then(
         (user) => {
             if (!user) {
                 return res.status(404).send(new Error('User not found!'));
@@ -74,6 +74,21 @@ exports.userData = (req, res, next) => {
             res.status(500).send(new Error('Database error!'));
         }
     )
+};
+
+
+exports.modifyProfil = (req, res, next) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+    const userId = decodedToken.userId;
+    models.User.update({
+        lastname: req.body.lastname,
+        firstname: req.body.firstname,
+        email: req.body.email
+        },
+        {where: {id: userId}})
+        .then(() => res.status(200).json({message: 'Profil modifié !'}))
+        .catch(error => res.status(400).json({error}));
 };
 
 

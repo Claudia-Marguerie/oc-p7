@@ -23,13 +23,13 @@ document.querySelector('#logout-button').addEventListener('click', () => {
 
 
 //Crée le bouton "suprimmer mon compte"
-document.querySelector('#delete-user-button').addEventListener('click', () => {
-    axios.delete('http://localhost:3000/api/users/me', headers).then((res) => {
-        localStorage.clear('userId');
-        localStorage.clear('token');
-        window.location.href = 'signup.html';
-    })
-})
+// document.querySelector('#delete-user-button').addEventListener('click', () => {
+//     axios.delete('http://localhost:3000/api/users/me', headers).then((res) => {
+//         localStorage.clear('userId');
+//         localStorage.clear('token');
+//         window.location.href = 'signup.html';
+//     })
+// })
 
 
 // Affichage Nom et prénom de l'utilisateur
@@ -58,23 +58,20 @@ function displayName(userData) {
 const postId = localStorage.getItem('postIdToModify');
 const originalContent = null;
 
+// Recupere le contenu du post a modifier (avec l'ID postId) avec la route get 'One'
 axios.get('http://localhost:3000/api/posts/' + postId, headers).then((res) => {
     // displayName(res.data)
-    console.log('reponse route post')
-    console.log(res)
+    // console.log('reponse route post')
+    // console.log(res)
+    // remplir le formulaire avec les donnees originales du post (venant du serveur)
     document.querySelector('#title').value = res.data.title;
-    console.log(res.data.title)
+    // console.log(res.data.title)
     document.querySelector('#contentPost').textContent = res.data.contentPost;
 
 }).catch(() => {
     console.log('erreur catch')
     window.location.href = 'login.html'
 })
-
-// recupere le contenu du post a modifier (avec l'ID postId) avec la route get 'One'
-
-// reamplir le formulaire avec les donnees originales du post (venant du serveur)
-
 
 
 //Envoie data de chaque post
