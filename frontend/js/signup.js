@@ -6,13 +6,9 @@ function signUp(event){
     user.email = event.target.email.value;
     user.password = event.target.password.value;
 
-    // const userObject = JSON.stringify(user);
-    // console.log(userObject)
-
     axios.post('http://localhost:3000/api/users/signup', user).then((response) => {
         const data = response.data
-        console.log(data)
-        localStorage.setItem('user', JSON.stringify(data.user)) // on converti la liste en string pour qu'elle soit lisible par javascript. 
+        localStorage.setItem('user', JSON.stringify(data.user)) // on converti le tableau du user en string pour qu'il soit lisible par javascript. 
         localStorage.setItem('token', data.token);
         document.location.href = 'index.html'; // Redirection vers la page d'accueil
     }), (err) => {

@@ -6,9 +6,9 @@ exports.createPost = (req, res, next) => {
     console.log('début backend');
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-    const userId = decodedToken.userId;
+    const userId = decodedToken.userId; // on recupère le userId du token
 
-    const post = new models.Post({
+    const post = new models.Post({ // on crée un nouv objet avec les informations du post
         title: req.body.title,
         contentPost: req.body.contentPost,
         // attachment: req.body.attachment,
@@ -17,7 +17,7 @@ exports.createPost = (req, res, next) => {
         userId: userId
         // imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });
-    post.save()
+    post.save() // on enregistre le post dans la base de données
         .then(() => res.status(201).json({message: 'Post enregistré !'}))
         .catch(error => res.status(400).json({error}));
 };
@@ -78,11 +78,10 @@ exports.getAllPosts = (req, res, next) => {
 
 
 exports.getOnePost = (req, res, next) => {
-    const postId = parseInt(req.params.id)
-    models.Post.findByPk(postId)
+    const postId = parseInt(req.params.id) // on transforme l'id du post en nombre entier
+    models.Post.findByPk(postId) // on recupre le post à partir de son id 
         .then((post) => {
-            // console.log(post)
-            return res.status(200).json(post);
+            return res.status(200).json(post); // on renvoie le post vers le frontend
         })
         .catch((error) => {
             return res.status(404).json({error: error});
@@ -97,6 +96,7 @@ exports.likePost = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
     const userId = decodedToken.userId;
+    // récupération de l'Id du post
     const postId = req.params.id;
 
     models.Post.findOne({
@@ -105,7 +105,7 @@ exports.likePost = (req, res, next) => {
             model: models.Like,
             where: {userId}
         }]
-    }) // /!\ fausse instruction pour garder la structure '.then(...)' sans qu'il y ait d'erreur à cause de l'absence de la table Like --> a supprimer plus tard
+    }) 
         .then(foundLike => {
             return models.Post.findOne({
                 where: {id: postId}

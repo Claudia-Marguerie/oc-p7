@@ -5,11 +5,14 @@ const headers = {
     }
 }
 
+
 const token = localStorage.getItem('token');
 const postList = [];
 let user = null
 
-// Affichage Nom et prénom de l'utilisateur
+
+// Recupération et affichage nom et prénom de l'utilisateur
+// Recupération et affichage des posts
 axios.get('http://localhost:3000/api/users/me', headers).then((res) => {
     user = res.data
     localStorage.setItem('user', JSON.stringify(res.data))
@@ -22,53 +25,40 @@ axios.get('http://localhost:3000/api/users/me', headers).then((res) => {
 
 // Crée le bouton 'deconnexion'
 document.querySelector('#logout-button').addEventListener('click', () => {
-    localStorage.clear('userId');
+    localStorage.clear('userId'); // on enlève l'userId et le token du local storage
     localStorage.clear('token');
-    window.location.href = 'login.html';
+    window.location.href = 'login.html'; //renvoie vers la page du login
 })
 
 
-//Crée le bouton "suprimmer mon compte"
-// document.querySelector('#delete-user-button').addEventListener('click', () => {
-//     axios.delete('http://localhost:3000/api/users/me', headers).then((res) => {
-//         localStorage.clear('userId');
-//         localStorage.clear('token');
-//         window.location.href = 'signup.html';
-//     })
-// })
-
-
-// Affichage Nom et prénom de l'utilisateur
+// Définition function pour l'affichage des nom et prénom de l'utilisateur
 function displayName(userData) {
     document.querySelector('.firstname').textContent = userData.firstname;
     document.querySelector('.lastname').textContent = userData.lastname;
 }
 
 
-//Affichage des posts
+// Définition function pour l'affichage des posts
 function displayPosts() {
     axios.get('http://localhost:3000/api/posts/getAll', headers).then((res) => {
-        const postList = res.data;
+        const postList = res.data; // on stocke la réponse du serveur
 
-        // console.log('postList = ' + postList)
-
-        for (let i = 0; i < postList.length; i++) { //Pour chaque post
-            let likeImg = "images/like.png"
-            let alreadyLiked = postList[i].Likes.find(like => like.UserId === user.id)
-            if (alreadyLiked) {
+        for (let i = 0; i < postList.length; i++) { // Pour chaque post
+            let likeImg = "images/like.png" // image du like par défaut (vide)
+            let alreadyLiked = postList[i].Likes.find(like => like.UserId === user.id) // on cherche si l'utilisateur a dejà liké le post
+            if (alreadyLiked) { // s'il a liké le poste, on utilise l'image verte du like
                 likeImg = "images/like-green.png"
             }
 
             let actionButtons = '';
-            if (postList[i].User.id === user.id || user.userAdmin) {
+            if (postList[i].User.id === user.id || user.userAdmin) { // si l'utilisateur est le créateur du post ou s'il est le userAdmin, on active l'affichage des bouttons Modifier/Supression
                 actionButtons = '<button id="modifybtn_' + postList[i].id + '" class="btn-user--update">Modifier</button>' +
                     '<button id="deletebtn_' + postList[i].id + '" class="btn-user--delete">Effacer</button>';
             }
 
-            //Si le créateur du post es le même que l'userID
             const listPost = document.querySelector('#container_posts');
             const postListItem = document.createElement('div');
-            postListItem.innerHTML = // Afficher le post (tout le HTML) avec boutons de modif / effacage
+            postListItem.innerHTML = // Affichage du post, le tout en HTML
                 '<div id="post_' + postList[i].id + '" class="post-item">' +
                 '<div class="all-items">' +
                 '<div class="top-post">' +
@@ -77,8 +67,8 @@ function displayPosts() {
                 '<p>' + postList[i].User.firstname + '</p>' + '<p>' + postList[i].User.lastname + '</p>' +
                 '</div>' +
                 '<div class="date-time-data">' +
-                '<p class="date">' + formatDate(postList[i].updatedAt) + '</p>' + //voir comment afficher la date
-                '<p class="time">' + formatTime(postList[i].updatedAt) + '</p>' + // voir comment afficher l'heure
+                '<p class="date">' + formatDate(postList[i].updatedAt) + '</p>' + 
+                '<p class="time">' + formatTime(postList[i].updatedAt) + '</p>' + 
                 '</div>' +
                 '</div>' +
                 '<div class="post">' +
@@ -96,35 +86,34 @@ function displayPosts() {
                 '<p id="like-post_' + postList[i].id + '">' + postList[i].Likes.length + '</p>' +
                 '</div>' +
                 '<div class="btn-user">' +
-                actionButtons +
+                actionButtons + // si l'utilisateur est le créateur du post ou s'il est le userAdmin, cette string contient le code pour l'affichage des bouttons Modifier/Supression
                 '</div>' +
                 '</div>' +
                 '</div>' +
                 '</div>'
-            listPost.appendChild(postListItem);
+            listPost.appendChild(postListItem); // ajout de la nouvelle div dans le DOM
 
-            const modifyBtn = document.querySelector('#modifybtn_' + postList[i].id)
-            const deleteBtn = document.querySelector('#deletebtn_' + postList[i].id)
+            const modifyBtn = document.querySelector('#modifybtn_' + postList[i].id) // vérifie si le bouton Modifier est créé
+            const deleteBtn = document.querySelector('#deletebtn_' + postList[i].id) // vérifie si le bouton Supprimer est créé
 
-            if(modifyBtn){
+            if(modifyBtn){ // ajoute l'action liée au bouton modifier s'il existe
                 modifyBtn.addEventListener('click', () => {
                     goToModify(postList[i].id)
                 })
             }
 
-            if(deleteBtn){
+            if(deleteBtn){ // ajoute l'action liée au bouton supprimer s'il existe
                 deleteBtn.addEventListener('click', () => {
                     goToDelete(postList[i].id)
                 })
             }
 
-
-            //addEventListener pour le changement de couleur du like
+            // ajoute l'action liée au click sur le bouton like
             document.querySelector('#like_' + postList[i].id).addEventListener('click', () => {
-                axios.post('http://localhost:3000/api/posts/' + postList[i].id + '/like', user.id, headers).then(({data}) => {
-                    postList[i] = data
-                    updateLike(postList[i].id, alreadyLiked, postList[i].Likes.length)
-                    alreadyLiked = !alreadyLiked
+                axios.post('http://localhost:3000/api/posts/' + postList[i].id + '/like', user.id, headers).then(({data}) => { // requête au serveur d'actualiser le status like pour ce post
+                    postList[i] = data // on recupère les informations du post (dont les informations like)
+                    updateLike(postList[i].id, alreadyLiked, postList[i].Likes.length) // appelle l'actualisation de l'affichage du like pour le post
+                    alreadyLiked = !alreadyLiked // inverse le status du like
                 })
             })
         }
@@ -132,14 +121,14 @@ function displayPosts() {
 }
 
 
-//Retreieve and display post date
+// transforme le format de la date et la transforme en string pour l'affichage
 function formatDate(unformattedDate) {
     var d = new Date(unformattedDate);
     return d.toLocaleDateString();
 }
 
 
-//Retreieve and display post time
+// transforme le format de l'heure et la transforme en string pour l'affichage
 function formatTime(unformattedDate) {
     var d = new Date(unformattedDate);
     return d.toLocaleTimeString();
@@ -153,80 +142,47 @@ function goToModify(postIdToModify) {
 
 
 function goToDelete(postIdToDelete) {
-    axios.delete('http://localhost:3000/api/posts/' + postIdToDelete, headers).then((res) => {
-        refreshPosts();
+    axios.delete('http://localhost:3000/api/posts/' + postIdToDelete, headers).then((res) => { // requête au serveur d'effacer un post
+        refreshPosts(); // on re-affiche tous les posts
 
     }).catch(() => {
         console.log('erreur catch')
-        // window.location.href = 'login.html'
     })
 }
 
 
-//Changement de couleur au like
+// Mise à jour du like
 function updateLike(postId, alreadyLiked, nbLikes) {
-    const imageDiv = document.querySelector('#like_' + postId);
-    if (alreadyLiked) {
-        imageDiv.setAttribute("src", "images/like.png");
+    const imageDiv = document.querySelector('#like_' + postId); // recherche la div qui correspond à l'image like du post
+    if (alreadyLiked) { // si l'utilisateur avait liké ce post précédemment
+        imageDiv.setAttribute("src", "images/like.png"); // on change l'image du like vide
     } else {
-        imageDiv.setAttribute("src", "images/like-green.png");
+        imageDiv.setAttribute("src", "images/like-green.png"); // sinon, on change l'image du like vert
     }
     document.querySelector('#like-post_' + postId).textContent = nbLikes
 }
 
+
+// Mise à jour de l'affichage de la liste des produits
 function refreshPosts() {
-    const numberOfDiv = document.getElementById("container_posts").childElementCount; // indique le nonbre de division à effacer
-    for (let i = 0; i < numberOfDiv; i++) {  // On demande d'effacer la div dans le DOM
-        const postToDelete = document.querySelector('#container_posts div');
-        postToDelete.parentNode.removeChild(postToDelete); // on supprime la div du produit à effacer
-
+    const numberOfDiv = document.getElementById("container_posts").childElementCount; 
+    for (let i = 0; i < numberOfDiv; i++) {  // Pour chacune des div qui contiennent les post
+        const postToDelete = document.querySelector('#container_posts div'); // On selectione la div qui contient les div des posts
+        postToDelete.parentNode.removeChild(postToDelete); // On demande d'effacer la div dans le DOM
     }
-    displayPosts();
+    displayPosts(); // on affiche la liste des posts
 }
 
-function refreshLikes() {
-    axios.get('http://localhost:3000/api/posts/getAll', headers).then((res) => {
-        const postList = res.data;
-        const numberOfDiv = document.getElementById("container_posts").childElementCount; // indique le nonbre de division à effacer
-        const postListToUpdate = document.getElementById("container_posts").children;
-        console.log('numberOfDiv = ' + numberOfDiv);
-        console.log('postListToUpdate.length = ' + postListToUpdate.length);
-        for (let i = 0; i < numberOfDiv; i++) {  // On demande d'effacer la div dans le DOM
-            // const postToUpdate = document.querySelector('#container_posts div'); 
-            console.log('postListToUpdate[' + i + ']');
-            console.log(postListToUpdate[i]);
-            const divIdToUpdate = postListToUpdate[i].firstChild.getAttribute("id");
-            const postIdToUpdate = divIdToUpdate.split("_")[1];
-            console.log('i = ' + i + ' ; divIdToUpdate = ' + divIdToUpdate);
-            console.log('i = ' + i + ' ; postIdToUpdate = ' + postIdToUpdate);
 
-            const updatedPost = postList.find(post => post.id == postIdToUpdate);
-            console.log('updatedPost');
-            console.log(updatedPost);
-
-            console.log('updatedPost.likes');
-            console.log(updatedPost.likes);
-            document.querySelector('#like-post_' + postIdToUpdate).textContent = updatedPost.likes;
-            // updatedPost.likes;
-
-            // postList[i].id 
-            // document.getElementById("container_posts").childNodes;
-            // document.getElementById("myList").firstChild.innerHTML; 
-            // postToUpdate.parentNode.removeChild(postToDelete); // on supprime la div du produit à effacer
-
-        }
-
-
-    })
-}
-
-// Affichage du bouton TOP
+// Affichage du bouton TOP page
 mybutton = document.getElementById("myBtn");
 
-// Quand l'utilisateur scrolls au dessous de 20px d'haut de la page, le bouton s'afiche
+
+// Quand l'utilisateur scrolls au dessous de 20px d'haut de la page, le bouton s'affiche
 window.onscroll = function () {
     scrollFunction()
 };
+
 
 function scrollFunction() {
     if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
@@ -236,9 +192,9 @@ function scrollFunction() {
     }
 }
 
+
 // Quand l'utilisateur click sur le bouton, le scroll envoie au haut de la page
 function topFunction() {
     document.body.scrollTop = 0; // For Safari
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
-// refreshPosts();

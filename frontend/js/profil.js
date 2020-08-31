@@ -44,10 +44,10 @@ function displayName(userData) {
 }
 
 
-// Recupère le contenu du user à modifier
+// Recupère du serveur le contenu du user pour modification
 axios.get('http://localhost:3000/api/users/me', headers).then((res) => {
     
-    document.querySelector('#lastname').value = res.data.lastname;
+    document.querySelector('#lastname').value = res.data.lastname; // on affiche les informations de l'utilisateur dans le champ adhoc
     document.querySelector('#firstname').value = res.data.firstname;
     document.querySelector('#email').value = res.data.email;
 
@@ -56,7 +56,7 @@ axios.get('http://localhost:3000/api/users/me', headers).then((res) => {
 })
 
 
-// Envoie data de l'utilisateur modifié
+// Envoie les nouv données modifiés par l'utilisateur
 function SendModifiedProfil(event) {
     event.preventDefault();
     const userData = {};
@@ -65,17 +65,13 @@ function SendModifiedProfil(event) {
     userData.email = event.target.email.value;
 
     axios.put('http://localhost:3000/api/users/'+ userId, userData, headers).then((res) => {
-        console.log('après PUT')
-        const data = res.data
-        console.log(data)
-        // localStorage.setItem("postData", JSON.stringify(data.postData)) // on converti la liste en string pour qu'elle soit lisible par javascript. 
-        // localStorage.setItem('token', data.token);
+        // const data = res.data
         window.location.href = 'index.html'; // Redirection vers la page d'accueil
         }).catch(() => {
             console.log('erreur catch')
-            // window.location.href = 'login.html'
+            window.location.href = 'login.html'
         })
 
 }
 
-document.getElementById('form').addEventListener('submit', SendModifiedProfil);
+document.getElementById('form').addEventListener('submit', SendModifiedProfil); // on définie l'action liée au click du bouton Validation

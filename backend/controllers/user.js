@@ -5,9 +5,9 @@ const models = require('../models');
 
 
 exports.signup = (req, res, next) => {
-    bcrypt.hash(req.body.password, 10)
+    bcrypt.hash(req.body.password, 10) // appel à la fonction de hachage dans le mot de passe
         .then(hash => {
-            const user = new models.User({
+            const user = new models.User({ // création d'un utilisateur
                 lastname: req.body.lastname,
                 firstname: req.body.firstname,
                 email: req.body.email,
@@ -15,7 +15,7 @@ exports.signup = (req, res, next) => {
                 // userAdmin: false
             })
 
-            user.save()
+            user.save() // enregistrement de l'utilisateur dans la base de données
                 .then(() => res.status(201).json({
                     user,
                     token: jwt.sign(
@@ -31,17 +31,17 @@ exports.signup = (req, res, next) => {
 
 
 exports.login = (req, res, next) => {
-    models.User.findOne({where: {email: req.body.email}, attributes: ['id', 'password']})
+    models.User.findOne({where: {email: req.body.email}, attributes: ['id', 'password']}) // Vérification que l'email est dans la base de données
         .then(user => {
             if (!user) {
-                return res.status(401).json({error: 'Utilisateur non trouvé !'});
+                return res.status(401).json({error: 'Utilisateur non trouvé !'}); // s'il ne trouve pas, renvoie une erreur d'authentification
             }
-            bcrypt.compare(req.body.password, user.password)
+            bcrypt.compare(req.body.password, user.password) // on compare le mot de passe entrée par l'utilisateur avec le hash et celui qui est enregistré dans la base de données
                 .then(valid => {
                     if (!valid) {
-                        return res.status(401).json({error: 'Mot de passe incorrect !'});
+                        return res.status(401).json({error: 'Mot de passe incorrect !'}); // s'ils ne correspondent pas, renvoie un message d'erreur
                     }
-                    res.status(200).json({
+                    res.status(200).json({ // s'ils correspondent, on envoie une réponse de réussite avec l'id de l'utilisateur et un token crypté
                         auth: 'Succes',
                         user: user,
                         token: jwt.sign(
@@ -60,14 +60,14 @@ exports.login = (req, res, next) => {
 exports.userData = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-    const userId = decodedToken.userId;
+    const userId = decodedToken.userId; // on recupère le userId du token
 
-    models.User.findByPk(userId, {attributes: ['id', 'firstname', 'lastname', 'email', 'userAdmin']}).then(
+    models.User.findByPk(userId, {attributes: ['id', 'firstname', 'lastname', 'email', 'userAdmin']}).then( // on cherche les informations listées pour l'utilisateur
         (user) => {
             if (!user) {
                 return res.status(404).send(new Error('User not found!'));
             }
-            res.status(200).json(user);
+            res.status(200).json(user); // réponse du serveur avec les informations
         }
     ).catch(
         () => {
@@ -80,8 +80,8 @@ exports.userData = (req, res, next) => {
 exports.modifyProfil = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-    const userId = decodedToken.userId;
-    models.User.update({
+    const userId = decodedToken.userId; // on recupère le userId du token
+    models.User.update({ // mise à jour de lastname, firstname et email dans la base de donnés
         lastname: req.body.lastname,
         firstname: req.body.firstname,
         email: req.body.email
@@ -95,12 +95,11 @@ exports.modifyProfil = (req, res, next) => {
 exports.deleteUser = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-    const userId = decodedToken.userId;
-    models.Post.destroy({where: {userId: userId}}).then(
+    const userId = decodedToken.userId; // on recupère le userId du token
+    models.Post.destroy({where: {userId: userId}}).then( // on supprime les posts créés par l'utilisateur
         () => {
-            models.User.destroy({where: {id: userId}}).then(
+            models.User.destroy({where: {id: userId}}).then( // on supprime l'utilisateur de la base de données
                 (user) => {
-                    // models.Post.destroy({ where: {id: userId}})
                     if (!user) {
                         return res.status(404).send(new Error('User not found!'));
                     }
