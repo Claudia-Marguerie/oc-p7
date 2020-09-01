@@ -43,30 +43,27 @@ axios.get('http://localhost:3000/api/posts/' + postId, headers).then((res) => {
     // remplir le formulaire avec les donnees originales du post (venant du serveur)
     document.querySelector('#title').value = res.data.title;
     document.querySelector('#contentPost').textContent = res.data.contentPost;
-
 }).catch(() => {
     console.log('erreur catch')
-    window.location.href = 'login.html'
 })
 
 
 //Envoie data de chaque post
 function SendModifiedPost(event) {
     event.preventDefault();
-    const postData = {};
-    postData.title = event.target.title.value;
-    postData.contentPost = event.target.contentPost.value;
-    postData.attachment = event.target.attachment.value;
+    const formData = new FormData();
+    formData.append('title', event.target.title.value);
+    formData.append('contentPost', event.target.contentPost.value);
+    formData.append('attachment', event.target.attachment.files[0]);
 
-    console.log('avant le axios PUT')
-    axios.put('http://localhost:3000/api/posts/'+ postId, postData, headers).then((res) => {
-        // console.log('après PUT')
-        const data = res.data
+    headers.headers['Content-Type'] = 'multipart/form-data'
+
+    axios.put('http://localhost:3000/api/posts/'+ postId, formData, {...headers, 'Content-Type': 'multipart/form-data'})
+        .then((res) => { // on envoie au serveur les data du formulaire du post
 
         window.location.href = 'index.html'; // Redirection vers la page d'accueil
         }).catch(() => {
             console.log('erreur catch')
-            window.location.href = 'login.html'
         })
 }
 

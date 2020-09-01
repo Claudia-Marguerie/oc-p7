@@ -26,10 +26,10 @@ exports.modifyPost = (req, res, next) => {
     const postId = req.params.id;
     const postObject = req.file ?
         {
-            ...JSON.parse(req.body.post),
-            imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+            ...req.body,
+            attachment: req.file ? req.file.filename : null
         } : {...req.body};
-    models.Post.update({title: postObject.title, contentPost: postObject.contentPost}, {where: {id: postId}})
+    models.Post.update({title: postObject.title, contentPost: postObject.contentPost, attachment: postObject.attachment}, {where: {id: postId}})
         .then(() => res.status(200).json({message: 'Post modifié !'}))
         .catch(error => res.status(400).json({error}));
 };
