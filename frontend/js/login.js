@@ -1,6 +1,6 @@
 function login(event){
   event.preventDefault();
-  const user = {}; // on cree le tableau du user avec les donnés entrées dans le formulaire
+  const user = {}; // on cree le objet du user avec les donnés entrées dans le formulaire
   user.email = event.target.email.value;
   user.password = event.target.password.value;
 

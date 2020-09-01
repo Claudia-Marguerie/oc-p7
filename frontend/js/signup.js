@@ -1,7 +1,7 @@
 function signUp(event){
     event.preventDefault();
     const user = {};
-    user.lastname = event.target.lastname.value; // on cree le tableau du user avec les donnés entrées dans le formulaire
+    user.lastname = event.target.lastname.value; // on cree le objet du user avec les donnés entrées dans le formulaire
     user.firstname = event.target.firstname.value;
     user.email = event.target.email.value;
     user.password = event.target.password.value;
