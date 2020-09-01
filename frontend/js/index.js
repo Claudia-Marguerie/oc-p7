@@ -56,6 +56,11 @@ function displayPosts() {
                     '<button id="deletebtn_' + postList[i].id + '" class="btn-user--delete">Effacer</button>';
             }
 
+            let attachedMedia = '';
+            if(postList[i].attachment != null){
+            attachedMedia = '<img src="http://localhost:3000/images/' + postList[i].attachment + '" alt="">';
+            }
+
             const listPost = document.querySelector('#container_posts');
             const postListItem = document.createElement('div');
             postListItem.innerHTML = // Affichage du post, le tout en HTML
@@ -73,7 +78,7 @@ function displayPosts() {
                 '</div>' +
                 '<div class="post">' +
                 '<div class="post-image-texte">' +
-                '<img src="http://localhost:3000/images/' + postList[i].attachment + '" alt="">' +
+                attachedMedia +
                 '<div class="only-text">' +
                 '<h2>' + postList[i].title + '</h2>' +
                 '<p>' + postList[i].contentPost + '</p>' +
