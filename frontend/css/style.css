@@ -296,7 +296,7 @@ header {
 .container-page #container_posts .post-item .all-items .post .post-image-texte img {
   width: auto;
   height: auto;
-  max-width: 100%;
+  max-width: 70%;
   max-height: 300px;
 }
 .container-page #container_posts .post-item .all-items .post .post-image-texte .only-text {

@@ -172,9 +172,10 @@ header {
                         }
                         img {
                             width: auto;
+                            // max-width: 250px;
                             height: auto;
                             // height: 300px;
-                            max-width: 100%;
+                            max-width: 70%;
                             max-height: 300px;
                             // @media screen and (max-width: 694px) {
                             //     max-width: 100%;

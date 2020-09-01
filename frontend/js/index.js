@@ -144,7 +144,6 @@ function goToModify(postIdToModify) {
 function goToDelete(postIdToDelete) {
     axios.delete('http://localhost:3000/api/posts/' + postIdToDelete, headers).then((res) => { // requête au serveur d'effacer un post
         refreshPosts(); // on re-affiche tous les posts
-
     }).catch(() => {
         console.log('erreur catch')
     })

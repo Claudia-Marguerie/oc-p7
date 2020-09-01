@@ -39,15 +39,12 @@ exports.deletePost = (req, res, next) => {
     console.log('début backend deletePost')
     models.Post.findOne({where: {id: req.params.id}})
         .then(post => {
-            // const filename = post.imageUrl.split('/images/')[1];
             if(post.attachment){
                fs.unlinkSync(`images/${post.attachment}`)
             }
-            // fs.unlink(`images/${filename}`, () => {
             models.Post.destroy({where: {id: req.params.id}})
                 .then(() => res.status(200).json({message: 'Post supprimé !'}))
                 .catch(error => res.status(400).json({error}));
-            // });
         })
         .catch(error => {
             console.log(error)
@@ -57,8 +54,6 @@ exports.deletePost = (req, res, next) => {
 
 
 exports.getAllPosts = (req, res, next) => {
-    // console.log('get all posts backend');
-    // const postList =
     models.Post.findAll({
         attributes: ['id', 'title', 'contentPost', 'attachment', 'createdAt', 'updatedAt'],
         include: [
@@ -95,8 +90,6 @@ exports.getOnePost = (req, res, next) => {
 
 
 exports.likePost = (req, res, next) => {
-    console.log('début like post')
-
     // récupération de l'Id de l'utilisateur
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
@@ -104,7 +97,7 @@ exports.likePost = (req, res, next) => {
     // récupération de l'Id du post
     const postId = req.params.id;
 
-    models.Post.findOne({
+    models.Post.findOne({ // on cherche l'id du post ds le tableu Post et Like
         where: {id: postId},
         include: [{
             model: models.Like,
@@ -116,9 +109,9 @@ exports.likePost = (req, res, next) => {
                 where: {id: postId}
             }).then((post) => {
                 if (!foundLike) {
-                    return post.addUser(userId)
+                    return post.addUser(userId) // On ajoute l'userId ds le tableau
                 } else {
-                    return post.removeUser(userId)
+                    return post.removeUser(userId) // On supprime l'userId ds le tableau
                 }
             })
         })

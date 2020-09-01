@@ -9,15 +9,13 @@ const headers = {
 const user = JSON.parse(localStorage.getItem('user'));
 const userId = user.id;
 const token = localStorage.getItem('token');
-// const userAuth = false;
-// const postList = [];
 
 
 // Crée le bouton 'deconnexion'
 document.querySelector('#logout-button').addEventListener('click', () => {
     localStorage.clear('userId');
     localStorage.clear('token');
-    // envoyer infos au serveur pour informer de la deconnexion de l'utilisateur?
+    
     window.location.href = 'login.html';
 })
 
@@ -27,17 +25,9 @@ axios.get('http://localhost:3000/api/users/me', headers).then((res) => {
     displayName(res.data)
 
 }).catch(() => {
+    console.log('erreur catch')
     window.location.href = 'login.html'
 })
-
-
-// Crée le bouton 'deconnexion'
-// document.querySelector('#logout-button').addEventListener('click', () => {
-//     localStorage.clear('userId');
-//     localStorage.clear('token');
-//     // envoyer infos au serveur pour informer de la deconnexion de l'utilisateur?
-//     window.location.href = 'login.html';
-// })
 
 
 function displayName(userData) {
@@ -70,9 +60,8 @@ function SendModifiedPost(event) {
 
     console.log('avant le axios PUT')
     axios.put('http://localhost:3000/api/posts/'+ postId, postData, headers).then((res) => {
-        console.log('après PUT')
+        // console.log('après PUT')
         const data = res.data
-        console.log(data)
 
         window.location.href = 'index.html'; // Redirection vers la page d'accueil
         }).catch(() => {
