@@ -73,7 +73,7 @@ function displayPosts() {
                 '</div>' +
                 '<div class="post">' +
                 '<div class="post-image-texte">' +
-                // '<img src="' + postList[i].attachment + '" alt="">' +
+                '<img src="http://localhost:3000/images/' + postList[i].attachment + '" alt="">' +
                 '<div class="only-text">' +
                 '<h2>' + postList[i].title + '</h2>' +
                 '<p>' + postList[i].contentPost + '</p>' +

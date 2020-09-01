@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const models = require('../models');
+const fs = require('fs');
 
 
 exports.createPost = (req, res, next) => {
@@ -11,11 +12,9 @@ exports.createPost = (req, res, next) => {
     const post = new models.Post({ // on crée un nouv objet avec les informations du post
         title: req.body.title,
         contentPost: req.body.contentPost,
-        // attachment: req.body.attachment,
         attachment: req.file ? req.file.filename : null,
         likes: 0,
-        userId: userId
-        // imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        userId: userId,
     });
     post.save() // on enregistre le post dans la base de données
         .then(() => res.status(201).json({message: 'Post enregistré !'}))
@@ -41,13 +40,19 @@ exports.deletePost = (req, res, next) => {
     models.Post.findOne({where: {id: req.params.id}})
         .then(post => {
             // const filename = post.imageUrl.split('/images/')[1];
+            if(post.attachment){
+               fs.unlinkSync(`images/${post.attachment}`)
+            }
             // fs.unlink(`images/${filename}`, () => {
             models.Post.destroy({where: {id: req.params.id}})
                 .then(() => res.status(200).json({message: 'Post supprimé !'}))
                 .catch(error => res.status(400).json({error}));
             // });
         })
-        .catch(error => res.status(500).json({error}));
+        .catch(error => {
+            console.log(error)
+            res.status(500).json({error})
+        });
 };
 
 

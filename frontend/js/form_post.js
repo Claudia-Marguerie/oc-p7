@@ -39,17 +39,21 @@ function displayName(userData) {
 function addPost(event) {
     event.preventDefault();
     const postData = {}; // on crée un tableau vide
+    const formData = new FormData();
     postData.title = event.target.title.value; // on ajout les data du post dans le tableau
     postData.contentPost = event.target.contentPost.value;
-    // postData.attachment = event.target.attachment.value;
-    postData.attachment = event.target.attachment.files[0];
-
-    axios.post('http://localhost:3000/api/posts/new', postData, headers).then((res) => { // on envoie au serveur les data du formulaire du post
+    //postData.attachment = event.target.attachment.value;
+    formData.append('title', event.target.title.value);
+    formData.append('contentPost', event.target.contentPost.value);
+    formData.append('attachment', event.target.attachment.files[0])
+    headers.headers['Content-Type'] = 'multipart/form-data'
+    axios.post('http://localhost:3000/api/posts/new', formData, {...headers, 'Content-Type': 'multipart/form-data'})
+        .then((res) => { // on envoie au serveur les data du formulaire du post
         const data = res.data
         window.location.href = 'index.html'; // Redirection vers la page d'accueil
         }).catch(() => {
             console.log('erreur catch')
-            window.location.href = 'login.html'
+            //window.location.href = 'login.html'
         })
 }
 
